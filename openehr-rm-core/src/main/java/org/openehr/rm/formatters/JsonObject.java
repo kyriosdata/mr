@@ -360,6 +360,20 @@ public class JsonObject implements ModeloDeReferencia {
                 template = template.replaceAll("#value",obtemString(idNodoGrafo,0));
                 template = template.replaceAll("'", "\"");
                 break;
+            case PARTY_IDENTIFIED:
+                template = "{ 'externalRef': '#externalRef', 'identifiers':[#identifiers],  'name':'#name'  }";
+                template.replaceAll("#externalRef", buildJson(obtemInteiro(idNodoGrafo,0)));
+                int idListagemIdentifiers = obtemInteiro(idNodoGrafo,1);
+                int tamanhoListaIdentifiers = obtemTamanhoLista(idListagemIdentifiers);
+                String listaItensIdentifiers = "";
+                for (int i = 0; i < tamanhoListaIdentifiers; i++) {
+                    int idObjetoLista = obtemInteiro(idListagemIdentifiers, i);
+                    listaItensIdentifiers = (i == tamanhoListaIdentifiers - 1) ? buildJson(idObjetoLista) + ", " : buildJson(idObjetoLista);
+                }
+                template.replaceAll("#identifiers", listaItensIdentifiers);
+                template.replaceAll("#name", obtemString(idNodoGrafo, 2));
+                template = template.replaceAll("'", "\"");
+                break;
         }
         out += template;
         return out;
