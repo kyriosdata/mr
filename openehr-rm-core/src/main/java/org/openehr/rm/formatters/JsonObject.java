@@ -90,7 +90,7 @@ public class JsonObject implements ModeloDeReferencia {
                 String listaLinks = "";
                 for(int k = 0; k < tamanhoListaLinks; k++){
                     int idObjetoLista = obtemInteiro(idListaLinks,k);
-                    listaLinks = (k == tamanhoListaLinks - 1) ? buildJson(idObjetoLista) + "," : buildJson(idObjetoLista);
+                    listaLinks += (k == tamanhoListaLinks - 1) ? buildJson(idObjetoLista) + "," : buildJson(idObjetoLista);
                 }
                 template = template.replaceAll("#links", listaLinks);
                 template = template.replaceAll("#parent", buildJson(obtemByte(idNodoGrafo, 7)));
@@ -108,7 +108,7 @@ public class JsonObject implements ModeloDeReferencia {
                 String listaConcepts = "";
                 for(int k = 0; k < tamanhoListaConcepts; k++){
                     int idObjetoLista = obtemInteiro(idListaConcepts,k);
-                    listaConcepts = (k == tamanhoListaConcepts - 1) ? buildJson(idObjetoLista) + "," : buildJson(idObjetoLista);
+                    listaConcepts += (k == tamanhoListaConcepts - 1) ? buildJson(idObjetoLista) + "," : buildJson(idObjetoLista);
                 }
                 template = template.replaceAll("#concepts",listaConcepts);
                 template = template.replaceAll("'", "\"");
@@ -127,7 +127,7 @@ public class JsonObject implements ModeloDeReferencia {
                 listaLinks = "";
                 for(int k = 0; k < tamanhoListaLinks; k++){
                     int idObjetoLista = obtemInteiro(idListaLinks,k);
-                    listaLinks = (k == tamanhoListaLinks - 1) ? buildJson(idObjetoLista) + "," : buildJson(idObjetoLista);
+                    listaLinks += (k == tamanhoListaLinks - 1) ? buildJson(idObjetoLista) + "," : buildJson(idObjetoLista);
                 }
                 template = template.replaceAll("#links", listaLinks);
                 template = template.replaceAll("#parent", buildJson(obtemByte(idNodoGrafo, 7)));
@@ -141,7 +141,7 @@ public class JsonObject implements ModeloDeReferencia {
                 String listaParticipations = "";
                 for(int k = 0; k < tamanhoListaParticipations; k++){
                     int idObjetoLista = obtemInteiro(idListaParticipations,k);
-                    listaParticipations = (k == tamanhoListaParticipations - 1) ? buildJson(idObjetoLista) + "," : buildJson(idObjetoLista);
+                    listaParticipations += (k == tamanhoListaParticipations - 1) ? buildJson(idObjetoLista) + "," : buildJson(idObjetoLista);
                 }
                 template = template.replaceAll("#otherParticipations", listaParticipations);
                 template = template.replaceAll("#terminologyService", buildJson(obtemByte(idNodoGrafo, 14)));
@@ -161,7 +161,7 @@ public class JsonObject implements ModeloDeReferencia {
                 listaLinks = "";
                 for(int k = 0; k < tamanhoListaLinks; k++){
                     int idObjetoLista = obtemInteiro(idListaLinks,k);
-                    listaLinks = (k == tamanhoListaLinks - 1) ? buildJson(idObjetoLista) + "," : buildJson(idObjetoLista);
+                    listaLinks += (k == tamanhoListaLinks - 1) ? buildJson(idObjetoLista) + "," : buildJson(idObjetoLista);
                 }
                 template = template.replaceAll("#links", listaLinks);
                 template = template.replaceAll("#parent", buildJson(obtemByte(idNodoGrafo, 6)));
@@ -171,7 +171,7 @@ public class JsonObject implements ModeloDeReferencia {
                 String listaAddresses = "";
                 for(int k = 0; k < tamanhoListaAddresses; k++){
                     int idObjetoLista = obtemInteiro(idListaAddresses,k);
-                    listaAddresses = (k == tamanhoListaAddresses - 1) ? buildJson(idObjetoLista) + "," : buildJson(idObjetoLista);
+                    listaAddresses += (k == tamanhoListaAddresses - 1) ? buildJson(idObjetoLista) + "," : buildJson(idObjetoLista);
                 }
                 template = template.replaceAll("#addresses", listaAddresses);
                 template = template.replaceAll("'", "\"");
@@ -185,7 +185,7 @@ public class JsonObject implements ModeloDeReferencia {
                 String mapaTranslations = "";
                 for(int k = 0; k < tamanhoMapaTranslations; k++){
                     int idObjetoMapa = obtemInteiro(idMapaTranslations,k);
-                    mapaTranslations = mapaTranslations + ((k == tamanhoMapaTranslations - 1) ? "{'" + obtemString(idObjetoMapa,0) + "' : {"  + buildJson(obtemInteiro(idObjetoMapa,1)) + "}}," : "{'" + obtemString(idObjetoMapa,0) + "' : {"  + buildJson(obtemInteiro(idObjetoMapa, 1)) + "}}");
+                    mapaTranslations += mapaTranslations + ((k == tamanhoMapaTranslations - 1) ? "{'" + obtemString(idObjetoMapa,0) + "' : {"  + buildJson(obtemInteiro(idObjetoMapa,1)) + "}}," : "{'" + obtemString(idObjetoMapa,0) + "' : {"  + buildJson(obtemInteiro(idObjetoMapa, 1)) + "}}");
                 }
                 template = template.replaceAll("#author",mapaTranslations);
 
@@ -202,7 +202,7 @@ public class JsonObject implements ModeloDeReferencia {
                 String listaAudits = "";
                 for(int k = 0; k < tamanhoListaAudits; k++){
                     int idObjetoLista = obtemInteiro(idListaAudits,k);
-                    listaAudits = (k == tamanhoListaAudits - 1) ? '{' + buildJson(idObjetoLista) + "}," : '{' + buildJson(idObjetoLista) + '}';
+                    listaAudits += (k == tamanhoListaAudits - 1) ? '{' + buildJson(idObjetoLista) + "}," : '{' + buildJson(idObjetoLista) + '}';
                 }
                 template = template.replaceAll("#audits",listaAudits);
                 template = template.replaceAll("#originalLanguage",buildJson(obtemByte(idNodoGrafo,1)));
@@ -216,7 +216,7 @@ public class JsonObject implements ModeloDeReferencia {
                 String listaItems = "";
                 for(int k = 0; k < tamanhoListaItems; k++){
                     int idObjetoLista = obtemInteiro(idListaItems,k);
-                    listaItems = (k == tamanhoListaItems - 1) ? '{' + buildJson(idObjetoLista) + "}," : '{' + buildJson(idObjetoLista) + '}';
+                    listaItems += (k == tamanhoListaItems - 1) ? '{' + buildJson(idObjetoLista) + "}," : '{' + buildJson(idObjetoLista) + '}';
                 }
                 template = template.replaceAll("#audits",listaItems);
                 template = template.replaceAll("'", "\"");
@@ -248,7 +248,7 @@ public class JsonObject implements ModeloDeReferencia {
                 String listaItens = "";
                 for(int k = 0; k < tamanhoListaItens; k++){
                     int idObjetoLista = obtemInteiro(idListaItens,k);
-                    listaItens = (k == tamanhoListaItens - 1) ? '{' + buildJson(idObjetoLista) + "}," : '{' + buildJson(idObjetoLista) + '}';
+                    listaItens += (k == tamanhoListaItens - 1) ? '{' + buildJson(idObjetoLista) + "}," : '{' + buildJson(idObjetoLista) + '}';
                 }
                 template = template.replaceAll("#items",listaItens);
 
@@ -307,7 +307,7 @@ public class JsonObject implements ModeloDeReferencia {
                 String listaSpecisialisation = "";
                 for(int k = 0; k < tamanhoListaSpecialisation; k++){
                     int idObjetoLista = obtemInteiro(idListaSpecialisation,k);
-                    listaSpecisialisation = (k == tamanhoListaSpecialisation - 1) ? '{' + buildJson(idObjetoLista) + "}," : '{' + buildJson(idObjetoLista) + '}';
+                    listaSpecisialisation += (k == tamanhoListaSpecialisation - 1) ? '{' + buildJson(idObjetoLista) + "}," : '{' + buildJson(idObjetoLista) + '}';
                 }
 
                 template = template.replaceAll("#specialisation",listaSpecisialisation);
@@ -391,7 +391,7 @@ public class JsonObject implements ModeloDeReferencia {
                 String mapa = "";
                 for(int k = 0; k < tamanhoMapa; k++){
                     int idObjetoMapa = obtemInteiro(idMapaAuthor,k);
-                    mapa = mapa + ((k == tamanhoMapa - 1) ? "{'" + obtemString(idObjetoMapa,0) + "' : '"  + obtemString(idObjetoMapa,1)+ "'}," : "{'" + obtemString(idObjetoMapa,0) + "' : '"  + obtemString(idObjetoMapa,1)+ "}'");
+                    mapa += mapa + ((k == tamanhoMapa - 1) ? "{'" + obtemString(idObjetoMapa,0) + "' : '"  + obtemString(idObjetoMapa,1)+ "'}," : "{'" + obtemString(idObjetoMapa,0) + "' : '"  + obtemString(idObjetoMapa,1)+ "}'");
                 }
                 template = template.replaceAll("#author",mapa);
 
@@ -400,12 +400,51 @@ public class JsonObject implements ModeloDeReferencia {
                 mapa = "";
                 for(int k = 0; k < tamanhoMapa; k++){
                     int idObjetoMapa = obtemInteiro(idMapaAuthor,k);
-                    mapa = mapa + ((k == tamanhoMapa - 1) ? "{'" + obtemString(idObjetoMapa,0) + "' : '"  + obtemString(idObjetoMapa,1)+ "'}," : "{'" + obtemString(idObjetoMapa,0) + "' : '"  + obtemString(idObjetoMapa,1)+ "}'");
+                    mapa += mapa + ((k == tamanhoMapa - 1) ? "{'" + obtemString(idObjetoMapa,0) + "' : '"  + obtemString(idObjetoMapa,1)+ "'}," : "{'" + obtemString(idObjetoMapa,0) + "' : '"  + obtemString(idObjetoMapa,1)+ "}'");
                 }
                 template = template.replaceAll("#otherDetails",mapa);
                 template = template.replaceAll("'", "\"");
                 break;
+            case FEEDER_AUDIT_DETAILS:
+                template = "{ 'globalTypeIdn' : #globalTypeIdn, 'systemId' : '#systemId', 'provider': #provider, 'location': #location, 'time': #time, 'subject': #subject, 'versionId': '#versionId'}";
+                template = template.replaceAll("#globalTypeIdn",String.valueOf(FEEDER_AUDIT_DETAILS));
+                template = template.replaceAll("#systemId",obtemString(idNodoGrafo,0));
+                template = template.replaceAll("#provider",buildJson(obtemInteiro(idNodoGrafo,1)));
+                template = template.replaceAll("#location",buildJson(obtemInteiro(idNodoGrafo,2)));
+                template = template.replaceAll("#time",buildJson(obtemInteiro(idNodoGrafo,3)));
+                template = template.replaceAll("#subject",buildJson(obtemInteiro(idNodoGrafo, 4)));
+                template = template.replaceAll("#versionId",obtemString(idNodoGrafo, 5));
+                template = template.replaceAll("'", "\"");
+                break;
+            case INSTRUCTION_DETAILS:
+                template = "{ 'globalTypeIdn' : #globalTypeIdn, 'instructionId' : #instructionId, 'activityId': '#activityId', 'wfDetails': #wfDetails}";
+                template = template.replaceAll("#globalTypeIdn",String.valueOf(INSTRUCTION_DETAILS));
+                template = template.replaceAll("#instructionId",buildJson(obtemInteiro(idNodoGrafo,0)));
+                template = template.replaceAll("#activityId",obtemString(idNodoGrafo, 1));
+                template = template.replaceAll("#wfDetails",buildJson(obtemInteiro(idNodoGrafo,2)));
+                template = template.replaceAll("'", "\"");
+                break;
+            case EVENT_CONTEXT:
+                template = "{ 'globalTypeIdn' : #globalTypeIdn, 'healthCareFacility' : #healthCareFacility, 'startTime': #startTime, 'endTime': #endTime, 'participations': [#participations], 'location': '#location', 'setting': #setting, 'otherContext': #otherContext}";
+                template = template.replaceAll("#globalTypeIdn",String.valueOf(EVENT_CONTEXT));
+                template = template.replaceAll("#healthCareFacility",buildJson(obtemInteiro(idNodoGrafo,0)));
+                template = template.replaceAll("#startTime",obtemString(idNodoGrafo, 1));
+                template = template.replaceAll("#endTime",buildJson(obtemInteiro(idNodoGrafo,2)));
 
+                int idListaParticipation = obtemInteiro(idNodoGrafo,3);
+                int tamanhoListaParticipation = obtemTamanhoLista(idListaParticipation);
+                String listaParticipation = "";
+                for(int k = 0; k < tamanhoListaParticipation; k++){
+                    int idObjetoLista = obtemInteiro(idListaParticipation,k);
+                    listaParticipation += (k == tamanhoListaParticipation - 1) ? '{' + buildJson(idObjetoLista) + "}," : '{' + buildJson(idObjetoLista) + '}';
+                }
+
+                template = template.replaceAll("#participations",listaParticipation);
+                template = template.replaceAll("#location",obtemString(idNodoGrafo,4));
+                template = template.replaceAll("#setting",buildJson(obtemInteiro(idNodoGrafo,5)));
+                template = template.replaceAll("#otherContext",buildJson(obtemInteiro(idNodoGrafo,6)));
+                template = template.replaceAll("'", "\"");
+                break;
         }
         out += template;
         return out;
