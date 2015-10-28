@@ -52,6 +52,8 @@ public class Referencia {
      *
      * @return Quantidade de bytes, de 1 a 4,
      * inclusive, para armazenar o valor fornecido.
+     *
+     * TODO como otimizar?
      */
     public static int totalBytes(int endereco) {
         if (endereco <= 0x3F) {
