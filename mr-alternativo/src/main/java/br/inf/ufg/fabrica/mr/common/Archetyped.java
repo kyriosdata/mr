@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2015 - 2016. Instituto de Informática (UFG)
+ */
+
 package br.inf.ufg.fabrica.mr.common;
 
 public interface Archetyped {

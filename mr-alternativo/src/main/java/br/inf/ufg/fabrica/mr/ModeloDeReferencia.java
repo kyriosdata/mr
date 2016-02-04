@@ -1,5 +1,8 @@
 package br.inf.ufg.fabrica.mr;
 
+import br.inf.ufg.fabrica.mr.datatypes.Text;
+import br.inf.ufg.fabrica.mr.datatypes.Uri;
+
 /**
  * Fábrica de objetos baseados no Modelo de Referência
  * do openEHR.
@@ -65,7 +68,7 @@ package br.inf.ufg.fabrica.mr;
  * não ocorre por campo, mas por toda a coleção de valores
  * que formam um objeto.</p>
  */
-public interface ModeloDeReferencia extends Serializacao, Campo, Identification {
+public interface ModeloDeReferencia extends Uri, Text, Serializacao, Campo, Identification {
 
     /**
      * Identificador do tipo DV_BOOLEAN.
@@ -306,26 +309,6 @@ public interface ModeloDeReferencia extends Serializacao, Campo, Identification 
             String type);
 
     /**
-     * Adiciona um {@link java.net.URI} ({@code DV_URI}).
-     *
-     * @param uri Sequência de caracteres correspondentes
-     *            à {@link java.net.URI}.
-     *
-     * @return O identificador único desta URI na estrutura.
-     */
-    int adicionaDvUri(String uri);
-
-    /**
-     * Adiciona um {@link java.net.URI} cujo esquema é
-     * "ehr" ({@code DvEHRURI}).
-     *
-     * @param uri Sequência de caracteres correspondentes
-     *            à {@link java.net.URI}.
-     * @return O identificador único desta DvEHRURI na estrutura.
-     */
-    int adicionaDvEhrUri(String uri);
-
-    /**
      * Adiciona um identificador de terminologia
      * ({@code TERMINOLOGY_ID}).
      *
@@ -347,15 +330,6 @@ public interface ModeloDeReferencia extends Serializacao, Campo, Identification 
      * terminologia na estrutura.
      */
     int adicionaTerminologyId(String valor);
-
-    /**
-     * Adiciona um código ({@code CODE_PHRASE}).
-     *
-     * @param terminologyId Um identificador de terminologia.
-     * @param codeString A sequência correspondente ao código.
-     * @return O identificador único do código na estrutura.
-     */
-    int adicionaCodePhrase(String terminologyId, String codeString);
 
     /**
      * Adiciona dado encapsulado em uma sequência de caracteres
