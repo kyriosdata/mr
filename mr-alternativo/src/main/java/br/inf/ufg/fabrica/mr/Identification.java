@@ -47,10 +47,10 @@ public interface Identification {
      * ser local ou mantida além do <i>namespace</i> corrente, por exemplo,
      * por meio de outro serviço ({@code OBJECT_REF}).
      *
-     * @param namespace    O <i>namespace</i> da referência para o objeto.
-     * @param type         O tipo da referência para objeto.
-     * @param object_id    A referência (chave) para um objeto do tipo
-     *                     {@code OBJECT_ID}.
+     * @param namespace O <i>namespace</i> da referência para o objeto.
+     * @param type      O tipo da referência para objeto.
+     * @param object_id A referência (chave) para um objeto do tipo
+     *                  {@code OBJECT_ID}.
      * @return O identificador único do objeto adicionado.
      */
     int adicionaObjectRef(String namespace, String type, int object_id);
@@ -59,10 +59,10 @@ public interface Identification {
      * Adiciona identificador de parte envolvida em serviço demográfico
      * ({@code PARTY_REF}).
      *
-     * @param namespace    O <i>namespace</i> da referência para o objeto.
-     * @param type         O tipo da referência para objeto.
-     * @param object_id    A referência (chave) para um objeto do tipo
-     *                     {@code OBJECT_ID}.
+     * @param namespace O <i>namespace</i> da referência para o objeto.
+     * @param type      O tipo da referência para objeto.
+     * @param object_id A referência (chave) para um objeto do tipo
+     *                  {@code OBJECT_ID}.
      * @return O identificador único do objeto adicionado.
      */
     int adicionaPartyRef(String namespace, String type, int object_id);
@@ -71,10 +71,10 @@ public interface Identification {
      * Adiciona referência para grupo de acesso em um serviço de controle
      * de acesso ({@code ACCESS_GROUP_REF}).
      *
-     * @param namespace    O <i>namespace</i> da referência para o objeto.
-     * @param type         O tipo da referência para objeto.
-     * @param object_id    A referência (chave) para um objeto do tipo
-     *                     {@code OBJECT_ID}.
+     * @param namespace O <i>namespace</i> da referência para o objeto.
+     * @param type      O tipo da referência para objeto.
+     * @param object_id A referência (chave) para um objeto do tipo
+     *                  {@code OBJECT_ID}.
      * @return O identificador único do objeto adicionado.
      */
     int adicionaAccessGroupRef(String namespace, String type, int object_id);
@@ -147,7 +147,7 @@ public interface Identification {
 
     /**
      * Adiciona um identificador de versão ({@code VERSION_TREE_ID}).
-     * <p/>
+     * <p>
      * <p>O formato desse identificador é:<b>trunk-version</b> seguido,
      * opcionalmente, de <b>.branch-number.branch-version</b>.
      *
