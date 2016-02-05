@@ -68,7 +68,7 @@ import br.inf.ufg.fabrica.mr.datatypes.Uri;
  * não ocorre por campo, mas por toda a coleção de valores
  * que formam um objeto.</p>
  */
-public interface ModeloDeReferencia extends Uri, Text, Serializacao, Campo, Identification {
+public interface Mr extends Uri, Text, Serializacao, Campo, Identification {
 
     /**
      * Identificador do tipo DV_BOOLEAN.
@@ -79,6 +79,9 @@ public interface ModeloDeReferencia extends Uri, Text, Serializacao, Campo, Iden
      * Identificador do tipo DV_IDENTIFIER.
      */
     final int DV_IDENTIFIER = 1;
+
+
+    final int DV_STATE = 2;
 
     // TODO acrescente uma constante para todos os demais tipos
 

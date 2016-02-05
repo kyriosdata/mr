@@ -27,7 +27,7 @@ import static org.junit.Assert.*;
  * pode ser um byte, mas a recuperação exige o método
  * {@code #obtenhaByte}, documentado abaixo.</p>
  */
-public class ModeloDeReferenciaSupportTest {
+public class MrSupportTest {
 
     @Test
     public void armazeneByte() {
