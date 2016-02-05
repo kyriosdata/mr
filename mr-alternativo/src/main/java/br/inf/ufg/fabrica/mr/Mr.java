@@ -70,6 +70,7 @@ import br.inf.ufg.fabrica.mr.datatypes.Uri;
  */
 public interface Mr extends Uri, Text, Serializacao, Campo, Identification {
 
+    final int STRING = 10;
     /**
      * Identificador do tipo DV_BOOLEAN.
      */

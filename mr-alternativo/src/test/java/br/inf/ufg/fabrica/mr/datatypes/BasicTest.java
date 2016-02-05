@@ -14,23 +14,31 @@ import static org.junit.Assert.*;
  */
 public class BasicTest extends TestCase {
 
-  @Test
+    BasicImpl basic;
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        basic = new BasicImpl();
+    }
+
+    @Test
   public void testAdicionaDvBoolean() throws Exception {
-    new BasicImpl().adicionaDvBoolean(true);
+    basic.adicionaDvBoolean(true);
   }
 
   @Test
   public void testAdicionaDvIdentifier() throws Exception {
-    new BasicImpl().adicionaDvIdentifier(
-        "abcd",
-        "b",
-        "c",
-        "d"
-    );
+      System.out.println(basic.adicionaDvIdentifier(
+            "a",
+            "b",
+            "c",
+            "d"
+    ));
   }
 
   @Test
   public void testAdicionaDvState() throws Exception {
-    new BasicImpl().adicionaDvState(2000450, true);
+    System.out.println(basic.adicionaDvState(2000450, true));
   }
 }
