@@ -2,7 +2,7 @@
  * Copyright (c) 2015. Instituto de Informática (UFG)
  */
 
-package br.inf.ufg.fabrica.mr;
+package br.inf.ufg.fabrica.mr.support;
 
 /**
  * Operações de gerência de objetos do pacote Identification.

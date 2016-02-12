@@ -1,0 +1,12 @@
+namespace data_types.basic;
+
+struct DvBoolean {
+    value:bool;
+}
+
+table DvIdentifier {
+    issuer:string;
+    assigner:string;
+    id:string;
+    type:string;
+}

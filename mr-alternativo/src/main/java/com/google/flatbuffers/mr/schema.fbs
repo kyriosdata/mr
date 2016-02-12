@@ -1,0 +1,11 @@
+
+struct ObjectId {
+    value:string;
+}
+
+// value is ObjectId
+table TerminologyId {
+    value:string;
+    name:string;
+    version_id:string
+}

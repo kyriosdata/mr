@@ -101,7 +101,7 @@ public interface Serializacao {
 
     /**
      * Serializa as informações do presente objeto, baseado
-     * no MR, em um documento XML.
+     * no Mr, em um documento XML.
      * <p>
      * <p>O documento XML produzido pelo presente método,
      * sequência de caracteres, deve estar em conformidade

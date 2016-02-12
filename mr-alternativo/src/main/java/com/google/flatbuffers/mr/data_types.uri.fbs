@@ -1,0 +1,10 @@
+
+namespace data_types.uri;
+
+table DvUri {
+    value:string;
+}
+
+table DvEhrUri {
+    value:string;
+}

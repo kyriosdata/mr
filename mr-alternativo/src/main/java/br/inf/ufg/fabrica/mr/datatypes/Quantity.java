@@ -5,7 +5,7 @@
 package br.inf.ufg.fabrica.mr.datatypes;
 
 /**
- *
+ * TODO: Definir a passagens dos atributos das classes abstratas para as classes concretas.
  */
 public interface Quantity {
 
