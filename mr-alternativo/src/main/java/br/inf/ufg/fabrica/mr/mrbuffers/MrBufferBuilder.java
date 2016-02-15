@@ -5,6 +5,7 @@
 package br.inf.ufg.fabrica.mr.mrbuffers;
 
 
+import br.inf.ufg.fabrica.mr.Referencia;
 import br.inf.ufg.fabrica.mr.Mr;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
