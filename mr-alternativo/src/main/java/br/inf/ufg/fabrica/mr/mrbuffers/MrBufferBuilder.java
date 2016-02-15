@@ -5,6 +5,7 @@
 package br.inf.ufg.fabrica.mr.mrbuffers;
 
 
+import br.inf.ufg.fabrica.mr.Referencia;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
@@ -185,7 +186,9 @@ public class MrBufferBuilder {
      * @param x An `int` to put into the buffer.
      */
     public void putInt(int x) {
-        bb.writeInt(x);
+        //bb.writeInt(x);
+        bb.writeBytes(Referencia.intToByteArray(x));
+        
     }
 
     /**
@@ -195,7 +198,8 @@ public class MrBufferBuilder {
      * @param x A `long` to put into the buffer.
      */
     public void putLong(long x) {
-        bb.writeLong(x);
+        //bb.writeLong(x);
+        bb.writeBytes(Referencia.longToByteArray(x));
     }
 
     /**
