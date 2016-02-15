@@ -101,7 +101,7 @@ public class MrBufferBuilder {
      * @param x An `int` to put into the buffer.
      */
     public void addInt(int x) {
-        prep(4, 0);
+        prep(Referencia.totalBytes(x), 0);
         putInt(x);
     }
 
@@ -111,7 +111,7 @@ public class MrBufferBuilder {
      * @param x A `long` to put into the buffer.
      */
     public void addLong(long x) {
-        prep(8, 0);
+        prep(Referencia.totalBytes(x), 0);
         putLong(x);
     }
 
