@@ -8,6 +8,8 @@ import br.inf.ufg.fabrica.mr.Mr;
 import br.inf.ufg.fabrica.mr.datatypes.Text;
 import br.inf.ufg.fabrica.mr.mrbuffers.MrBufferBuilder;
 
+import java.net.URI;
+
 /**
  * Implementação do modelo de referência.
  */
@@ -78,6 +80,33 @@ public class MrImpl implements Mr {
         int id = bufferBuilder.addType(DV_STATE);
         bufferBuilder.addInt(value);
         bufferBuilder.addBoolean(terminal);
+        return id;
+    }
+
+    /**
+     * Adiciona um {@link URI} ({@code DV_URI}).
+     *
+     * @param uri Sequência de caracteres correspondentes
+     *            à {@link URI}.
+     * @return O identificador único desta URI na estrutura.
+     */
+    public int adicionaDvUri(String uri) {
+        int id = bufferBuilder.addType(DV_URI);
+        bufferBuilder.addInt(vectorBB.createString(uri));
+        return id;
+    }
+
+    /**
+     * Adiciona um {@link URI} cujo esquema é
+     * "ehr" ({@code DvEHRURI}).
+     *
+     * @param uri Sequência de caracteres correspondentes
+     *            à {@link URI}.
+     * @return O identificador único desta DvEHRURI na estrutura.
+     */
+    public int adicionaDvEhrUri(String uri) {
+        int id = bufferBuilder.addType(DV_EHR_URI);
+        bufferBuilder.addInt(vectorBB.createString(uri));
         return id;
     }
 }

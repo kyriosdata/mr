@@ -69,10 +69,11 @@ import br.inf.ufg.fabrica.mr.datatypes.*;
  */
 public interface Mr extends
         // datatypes
-        Basic
+        Basic,
 // , Encapsulated, Quantity,
 //        Text,
-//        TimeSpecification, Uri,
+//        TimeSpecification,
+        Uri
         // common
 //        Archetyped,
         // support
@@ -81,7 +82,9 @@ public interface Mr extends
 //        Campo
 {
 
-    final int STRING = 10;
+    final int TYPE_SIZE = 1;
+    final int INT_SIZE = 4;
+    final int STRING_ID = 10;
 
     /**
      * Identificador do tipo DV_URI.
