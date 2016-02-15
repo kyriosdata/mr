@@ -14,9 +14,11 @@ import br.inf.ufg.fabrica.mr.mrbuffers.MrBufferBuilder;
 public class MrImpl implements Mr {
 
     MrBufferBuilder bufferBuilder;
+    MrBufferBuilder vectorBB;
 
     public MrImpl(int initial_size) {
         this.bufferBuilder = new MrBufferBuilder(initial_size);
+        this.vectorBB = new MrBufferBuilder(initial_size);
     }
 
     public MrImpl() {
@@ -27,6 +29,10 @@ public class MrImpl implements Mr {
         return bufferBuilder;
     }
 
+    public MrBufferBuilder getVectorBB() {
+        return vectorBB;
+    }
+
     /**
      * Adiciona um valor lógico
      * - {@code DV_BOOLEAN}.
@@ -35,8 +41,10 @@ public class MrImpl implements Mr {
      * @return Identificador do valor lógico adicionado.
      */
     public int adicionaDvBoolean(boolean valor) {
+        int id = bufferBuilder.addType(DV_BOOLEAN);
         bufferBuilder.addBoolean(valor);
-        return bufferBuilder.addType(DV_BOOLEAN);
+        bufferBuilder.addInt(5);
+        return id;
     }
 
     /**
@@ -50,7 +58,12 @@ public class MrImpl implements Mr {
      * @return O identificador único deste identificador na estrutura.
      */
     public int adicionaDvIdentifier(String issuer, String assigner, String id, String type) {
-        return 0;
+        int i = bufferBuilder.addType(DV_IDENTIFIER);
+        bufferBuilder.addInt(vectorBB.createString(issuer));
+        bufferBuilder.addInt(vectorBB.createString(assigner));
+        bufferBuilder.addInt(vectorBB.createString(id));
+        bufferBuilder.addInt(vectorBB.createString(type));
+        return i;
     }
 
     /**
@@ -63,8 +76,9 @@ public class MrImpl implements Mr {
      * @see Text#adicionaDvCodedText(String, String, String, int, String, String, int)
      */
     public int adicionaDvState(int value, boolean terminal) {
-        bufferBuilder.addBoolean(terminal);
+        int id = bufferBuilder.addType(DV_STATE);
         bufferBuilder.addInt(value);
-        return bufferBuilder.addType(DV_STATE);
+        bufferBuilder.addBoolean(terminal);
+        return id;
     }
 }
