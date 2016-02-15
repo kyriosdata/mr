@@ -25,7 +25,7 @@ public class Referencia {
      * <p>
      * TODO como otimizar?
      */
-    public int totalBytes(int inteiro) {
+    public static int totalBytes(int inteiro) {
         if (inteiro <= 0x3F) {
             return 1;
         }
@@ -39,6 +39,39 @@ public class Referencia {
         }
 
         return 4;
+    }
+
+    public static int totalBytes(long value) {
+        if (value < Math.pow(2, 5)) {
+            return 1;
+        }
+
+        if (value < Math.pow(2, 13)) { 
+            return 2;
+        }
+
+        if (value < Math.pow(2, 21)) {
+            return 3;
+        }
+
+        if (value < Math.pow(2, 29)) {
+            return 4;
+        }
+        
+        if (value < Math.pow(2, 37)) {
+            return 5;
+        }
+
+        if (value < Math.pow(2, 45)) {
+            return 6;
+
+        }
+
+        if (value < Math.pow(2, 53)) {
+            return 7;
+        }
+        
+        return 8;
     }
     
         /**
@@ -126,7 +159,7 @@ public class Referencia {
     /**
      * Converte o array de bytes em um int.
      */
-    public int byteArrayToInt(byte[] b) {
+    private int byteArrayToInt(byte[] b) {
         int x = 0;
         for (int i = 0; i < b.length; i++) {
             x = (x << 8) | getByte(b[i]);
