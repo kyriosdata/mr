@@ -5,6 +5,7 @@
 package br.inf.ufg.fabrica.mr.mrbuffers;
 
 
+import br.inf.ufg.fabrica.mr.Mr;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
@@ -17,7 +18,6 @@ public class MrBufferBuilder {
 
     static final Charset utf8charset = Charset.forName("UTF-8"); // The UTF-8 character set used by FlatBuffers.
     ByteBuf bb;                  // Where we construct the FlatBuffer.
-    ByteBuf bbVector;
 
     /**
      * Start with a buffer of size `initial_size`, then grow as required.
@@ -241,7 +241,7 @@ public class MrBufferBuilder {
      */
     public int createString(String s) {
         byte[] utf8 = s.getBytes(utf8charset);
-        int id = addType(20);
+        int id = offset();
         addInt(utf8.length); // size
         prep(utf8.length, 0);
         bb.writeBytes(utf8);
