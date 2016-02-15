@@ -43,7 +43,6 @@ public class MrImpl implements Mr {
     public int adicionaDvBoolean(boolean valor) {
         int id = bufferBuilder.addType(DV_BOOLEAN);
         bufferBuilder.addBoolean(valor);
-        bufferBuilder.addInt(5);
         return id;
     }
 
