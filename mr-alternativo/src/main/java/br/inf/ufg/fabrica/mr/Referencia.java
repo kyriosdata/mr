@@ -1,6 +1,8 @@
 /*
  * Copyright (c) 2015. Instituto de Informática (UFG)
  */
+//TODO: reduzir float e double caso os testes mostrem 
+//que compensa reduzir o int e long
 
 package br.inf.ufg.fabrica.mr;
 
@@ -11,6 +13,15 @@ import java.io.ByteArrayInputStream;
  * vetor de bytes.
  */
 public class Referencia {
+    
+    /**
+     * o byte varia de -127 a 127, portanto é preciso
+     * convertê-lo para int para pegar o valor sem sinal
+     */
+    public int getByte(byte b) {
+        return b & 0xFF;
+    }
+
 
     /**
      * * Converte um inteiro em um vetor de bytes.
@@ -39,49 +50,7 @@ public class Referencia {
      * um valor na faixa de 64 (0x40) a 16383 (0x3FFF)
      * pode ser registrado.
      *
-     * @param endereco
-     * @return
-     */
-    public byte[] empacota(int endereco) {
-        return null;
-    }
-
-    /**
-     * Obtém a quantidade de bytes necessária para
-     * armazenar o valor.
-     *
-     * @param endereco Valor a ser armazenado.
-     * @return Quantidade de bytes, de 1 a 4,
-     * inclusive, para armazenar o valor fornecido.
-     * <p>
-     * TODO como otimizar?
-     */
-    public int totalBytes(int endereco) {
-        if (endereco <= 0x3F) {
-            return 1;
-        }
-
-        if (endereco <= 0x3FFF) {
-            return 2;
-        }
-
-        if (endereco <= 0x3FFFFF) {
-            return 3;
-        }
-
-        return 4;
-    }
-    
-        /**
-     * o byte varia de -127 a 127, portanto é preciso
-     * convertê-lo para int para pegar o valor sem sinal
-     */
-    public int getByte(byte b) {
-        return b & 0xFF;
-    }
-
-
-    /**
+     * 
      * O int é convertido para um array de byte
      * com o menor tamanho possivel.
      * O tamanho do array é guardado nos dois primeiros
@@ -170,8 +139,6 @@ public class Referencia {
     }
     
 
-    //TODO: integrar int e long em metodo unico
-    
     /**
      * O long é convertido para um array de byte
      * com o menor tamanho possivel.
