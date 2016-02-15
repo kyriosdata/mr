@@ -136,6 +136,15 @@ public class MrBufferBuilder {
     }
 
     /**
+     *
+     * @param x
+     */
+    public void addChar(char x) {
+        prep(1, 0);
+        putChar(x);
+    }
+
+    /**
      * Add a `type` to the buffer, backwards from the current location. Doesn't align nor
      * check for space.
      *
@@ -220,6 +229,14 @@ public class MrBufferBuilder {
      */
     public void putDouble(double x) {
         bb.writeDouble(x);
+    }
+
+    /**
+     *
+     * @param x
+     */
+    public void putChar(char x) {
+        bb.writeChar(x);
     }
 
     /**
