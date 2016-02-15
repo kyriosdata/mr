@@ -17,10 +17,10 @@ public class MrImplTest {
         MrImpl mr = new MrImpl();
         mr.adicionaDvBoolean(true);
         int index = mr.adicionaDvBoolean(true);
-
-        assertEquals(6, index);
-        assertEquals(MrImpl.DV_BOOLEAN, mr.getBufferBuilder().dataBuffer().getByte(6));
-        assertEquals(true, mr.getBufferBuilder().dataBuffer().getBoolean(7));
+        printByteArray(mr.getBufferBuilder().dataBuffer().array());
+        assertEquals(2, index);
+        assertEquals(MrImpl.DV_BOOLEAN, mr.getBufferBuilder().dataBuffer().getByte(2));
+        assertEquals(true, mr.getBufferBuilder().dataBuffer().getBoolean(3));
     }
 
     @Test
