@@ -81,6 +81,20 @@ public class Referencia {
     public int getByte(byte b) {
         return b & 0xFF;
     }
+    
+        /**
+     * Obtém o tamanho do inteiro a partir do
+     * byte informado.
+     * O byte passado por parâmetro contém 2 bits
+     * referentes ao tamanho do inteiro que o segue
+     * e 6 bits pertencentes ao próprio inteiro.
+     * Por ex., caso a função retorne 1, nenhum  
+     * outro byte precisa ser lido além do primeiro.
+     */
+    public static int tamanhoInt(byte b){
+        return (b >>> 6) + 1;
+    }
+
 
     /**
      * Converte um inteiro em um vetor de bytes.
@@ -267,8 +281,8 @@ public class Referencia {
      * ao restante, conforme o tamanho descoberto.
      */
     public int nextInt(ByteArrayInputStream buf) {
-        int b = buf.read();
-        byte i = (byte) (b >>> 6);
+        byte b = (byte) buf.read();
+        int i = tamanhoInt(b);
         byte ini = (byte) (b & 0x3F);
 
         switch (i) {

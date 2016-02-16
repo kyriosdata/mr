@@ -212,5 +212,5 @@ public interface Campo {
      *                                  (b) o campo não existe;
      *                                  (c) o objeto não existe.
      */
-    InputStream obtemStreamVeqtorBytes(int id, int campo);
+    InputStream obtemStreamVetorBytes(int id, int campo);
 }
