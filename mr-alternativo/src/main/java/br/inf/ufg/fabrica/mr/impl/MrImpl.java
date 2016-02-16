@@ -197,7 +197,7 @@ public class MrImpl implements Mr {
      * @see #adicionaDvCodedText(String, String, String, int, String, String, int)
      */
     public int adicionaTermMapping(int target, char match, int purpose) {
-        int id = addIdFromType(TERMINOLOGY_ID, true);
+        int id = addIdFromType(TERM_MAPPING, true);
         bufferBuilder.addInt(target);
         bufferBuilder.addInt(purpose);
         bufferBuilder.addChar(match);
@@ -219,6 +219,87 @@ public class MrImpl implements Mr {
         bufferBuilder.addInt(vectorBB.createString(valor));
         return id;
     }
+    
+    
+    public int adicionaDvMultimedia(String codePhraseCharSet, 
+            String codePhraseLanguage, String alternateText, 
+            String codePhraseMediaType, String codePhraseCompressionAlgorithm,
+            byte[] integrityCheck, String codePhraseIntegrityCheckAlgorithm,
+            int hDvMultimediaThumbnail, String dvUri, byte[] data) {
+            
+        int id = addIdFromType(DV_MULTIMEDIA, true);
+        bufferBuilder.addInt(vectorBB.createString(codePhraseCharSet));
+        bufferBuilder.addInt(vectorBB.createString(codePhraseLanguage));
+        bufferBuilder.addInt(vectorBB.createString(alternateText));
+        bufferBuilder.addInt(vectorBB.createString(codePhraseMediaType));
+        bufferBuilder.addInt(vectorBB.createString(codePhraseCompressionAlgorithm));
+        bufferBuilder.addInt(vectorBB.addByteArray(integrityCheck));
+        bufferBuilder.addInt(vectorBB.createString(codePhraseIntegrityCheckAlgorithm));
+        bufferBuilder.addInt(hDvMultimediaThumbnail);
+        bufferBuilder.addInt(vectorBB.createString(dvUri));
+        bufferBuilder.addInt(vectorBB.addByteArray(integrityCheck));
+        
+        return id;
+    }
+    public int adicionaDvMultimedia(String codePhraseCharSet, 
+            String codePhraseLanguage, String alternateText, 
+            String codePhraseMediaType, String codePhraseCompressionAlgorithm,
+            byte[] integrityCheck, String codePhraseIntegrityCheckAlgorithm,
+            String dvUri, byte[] data) {
+            
+        int id = addIdFromType(DV_MULTIMEDIA, true);
+        bufferBuilder.addInt(vectorBB.createString(codePhraseCharSet));
+        bufferBuilder.addInt(vectorBB.createString(codePhraseLanguage));
+        bufferBuilder.addInt(vectorBB.createString(alternateText));
+        bufferBuilder.addInt(vectorBB.createString(codePhraseMediaType));
+        bufferBuilder.addInt(vectorBB.createString(codePhraseCompressionAlgorithm));
+        bufferBuilder.addInt(vectorBB.addByteArray(integrityCheck));
+        bufferBuilder.addInt(vectorBB.createString(codePhraseIntegrityCheckAlgorithm));
+        bufferBuilder.addInt(vectorBB.createString(dvUri));
+        bufferBuilder.addInt(vectorBB.addByteArray(integrityCheck));
+        
+        return id;
+    }
+
+    public int adicionaDvParsable(String codePhraseCharSet, 
+            String codePhraseLanguage, String value, String formalism) {
+        
+        int id = addIdFromType(DV_PARSABLE, true);
+        bufferBuilder.addInt(vectorBB.createString(codePhraseCharSet));
+        bufferBuilder.addInt(vectorBB.createString(codePhraseLanguage));
+        bufferBuilder.addInt(vectorBB.createString(value));
+        bufferBuilder.addInt(vectorBB.createString(formalism));
+        
+        return id;
+    }
+
+    public int adicionaDvOrdinal(int otherReferenceRanges, int normalRange, 
+            String normalStatusCodePhrase, int value, int symbolDvCodedText) {
+        
+        int id = addIdFromType(DV_ORDINAL, true);
+        bufferBuilder.addInt(otherReferenceRanges);
+        bufferBuilder.addInt(normalRange);
+        bufferBuilder.addInt(vectorBB.createString(normalStatusCodePhrase));
+        bufferBuilder.addInt(value);
+        bufferBuilder.addInt(symbolDvCodedText);
+        
+        return id;
+        
+    }
+
+    public int adicionaDvInterval(int lowerOrdered, int upperOrdered,
+            boolean lowerIncluded, boolean upperIncluded) {
+        return 0;        
+    }
+
+    public int adicionaReferenceRange(int lowerOrdered, int upperOrdered, boolean lowerIncluded, boolean upperIncluded, String value, String hyperlink, String formatting, int mappings, String codePhraseLanguage, String codePhraseEncoding) {
+        return 0;
+    }
+
+    public int adicionaArchetyped(String archetypeId, String templateId, String rmVersion) {
+        return 0;
+    }
+
 
     private int addIdFromType(int type, boolean withId) {
         return withId ? bufferBuilder.addType(type) : bufferBuilder.offset();

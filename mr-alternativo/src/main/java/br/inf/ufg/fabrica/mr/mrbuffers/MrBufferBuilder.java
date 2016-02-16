@@ -266,6 +266,15 @@ public class MrBufferBuilder {
         bb.writeBytes(utf8);
         return id;
     }
+
+    public int addByteArray(byte[] arr) {
+        int id = offset();
+        addInt(arr.length);
+        prep(arr.length, 0);
+        bb.writeBytes(arr);
+        return id;
+    }
+
     /**
      * Get the ByteBuffer representing the MrBufferBuilder.
      */

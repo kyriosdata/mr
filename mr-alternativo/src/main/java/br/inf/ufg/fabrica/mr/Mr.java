@@ -1,5 +1,6 @@
 package br.inf.ufg.fabrica.mr;
 
+import br.inf.ufg.fabrica.mr.common.Archetyped;
 import br.inf.ufg.fabrica.mr.datatypes.*;
 
 /**
@@ -70,14 +71,15 @@ import br.inf.ufg.fabrica.mr.datatypes.*;
 public interface Mr extends
         // datatypes
         Basic,
-// , Encapsulated, Quantity,
+        Encapsulated, 
+        Quantity,
         Text,
-//        TimeSpecification,
-        Uri
+        TimeSpecification,
+        Uri,
         // common
-//        Archetyped,
+        Archetyped,
         // support
-//        Identification,
+        Identification
         // extra
 //        Campo
 {
