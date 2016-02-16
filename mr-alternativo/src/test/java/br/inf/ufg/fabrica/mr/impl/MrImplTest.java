@@ -9,9 +9,17 @@ import org.junit.Test;
 
 import java.nio.charset.Charset;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class MrImplTest {
+
+    public static void printByteArray(byte[] buffer) {
+        int i = 0;
+        for (byte x : buffer) {
+            System.out.println("" + i + " - " + x);
+            i++;
+        }
+    }
 
     @Test
     public void testAdicionaDvBoolean() throws Exception {
@@ -111,11 +119,48 @@ public class MrImplTest {
         assertEquals("http://inf.ufg.br/", mr.getVectorBB().dataBuffer().toString(uriStringIndex, uriLenght, Charset.forName("UTF-8")));
     }
 
-    private void printByteArray(byte[] buffer) {
-        int i = 0;
-        for (byte x : buffer) {
-            System.out.println("" + i + " - " + x);
-            i++;
-        }
+    @Test
+    public void testAdicionaCodePhrase() throws Exception {
+        MrImpl mr = new MrImpl();
+
+        mr.adicionaCodePhrase("centc251::nnnnnnn");
+
+        printByteArray(mr.getBufferBuilder().dataBuffer().array());
+    }
+
+    @Test
+    public void testAdicionaDvParagraph() throws Exception {
+
+    }
+
+    @Test
+    public void testAdicionaDvText() throws Exception {
+
+    }
+
+    @Test
+    public void testAdicionaDvCodedText() throws Exception {
+
+    }
+
+    @Test
+    public void testAdicionaTermMapping() throws Exception {
+        MrImpl mr = new MrImpl();
+
+        int index = mr.adicionaTermMapping(mr.adicionaCodePhrase("centc251::nnnnnnn"), '>', 1);
+    }
+
+    @Test
+    public void testAdicionaTerminologyId() throws Exception {
+        MrImpl mr = new MrImpl();
+        mr.adicionaTerminologyId("openehr");
+
+        int index = mr.adicionaTerminologyId("centc251");
+        assertEquals(5, index);
+        assertEquals(Mr.TERMINOLOGY_ID, mr.getBufferBuilder().dataBuffer().getByte(index));
+        assertEquals(11, mr.getBufferBuilder().dataBuffer().getInt(index + Mr.TYPE_SIZE));
+
+        assertEquals(10, mr.adicionaTerminologyId("snomed-ct", false));
+        assertEquals(23, mr.getBufferBuilder().dataBuffer().getInt(10));
     }
 }

@@ -5,7 +5,6 @@
 package br.inf.ufg.fabrica.mr.mrbuffers;
 
 
-import br.inf.ufg.fabrica.mr.Referencia;
 import br.inf.ufg.fabrica.mr.Mr;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -17,8 +16,8 @@ public class MrBufferBuilder {
 
     // Header
 
-    static final Charset utf8charset = Charset.forName("UTF-8"); // The UTF-8 character set used by FlatBuffers.
-    ByteBuf bb;                  // Where we construct the FlatBuffer.
+    static final Charset utf8charset = Charset.forName("UTF-8");
+    ByteBuf bb;
 
     /**
      * Start with a buffer of size `initial_size`, then grow as required.
@@ -71,7 +70,7 @@ public class MrBufferBuilder {
      * @param x A `boolean` to put into the buffer.
      */
     public void addBoolean(boolean x) {
-        prep(1, 0);
+        prep(Mr.BOOLEAN_SIZE, 0);
         putBoolean(x);
     }
 
@@ -81,7 +80,7 @@ public class MrBufferBuilder {
      * @param x A `byte` to put into the buffer.
      */
     public void addByte(byte x) {
-        prep(1, 0);
+        prep(Mr.BYTE_SIZE, 0);
         putByte(x);
     }
 
@@ -91,7 +90,7 @@ public class MrBufferBuilder {
      * @param x A `short` to put into the buffer.
      */
     public void addShort(short x) {
-        prep(2, 0);
+        prep(Mr.SHORT_SIZE, 0);
         putShort(x);
     }
 
@@ -101,7 +100,8 @@ public class MrBufferBuilder {
      * @param x An `int` to put into the buffer.
      */
     public void addInt(int x) {
-        prep(Referencia.totalBytes(x), 0);
+//        prep(Referencia.totalBytes(x), 0);
+        prep(Mr.INT_SIZE, 0);
         putInt(x);
     }
 
@@ -111,7 +111,8 @@ public class MrBufferBuilder {
      * @param x A `long` to put into the buffer.
      */
     public void addLong(long x) {
-        prep(Referencia.totalBytes(x), 0);
+//        prep(Referencia.totalBytes(x), 0);
+        prep(Mr.LONG_SIZE, 0);
         putLong(x);
     }
 
@@ -121,7 +122,7 @@ public class MrBufferBuilder {
      * @param x A `float` to put into the buffer.
      */
     public void addFloat(float x) {
-        prep(4, 0);
+        prep(Mr.FLOAT_SIZE, 0);
         putFloat(x);
     }
 
@@ -131,16 +132,15 @@ public class MrBufferBuilder {
      * @param x A `double` to put into the buffer.
      */
     public void addDouble(double x) {
-        prep(8, 0);
+        prep(Mr.DOUBLE_SIZE, 0);
         putDouble(x);
     }
 
     /**
-     *
      * @param x
      */
     public void addChar(char x) {
-        prep(1, 0);
+        prep(Mr.CHAR_SIZE, 0);
         putChar(x);
     }
 
@@ -154,7 +154,7 @@ public class MrBufferBuilder {
         if (x >= 0x3F) {
             throw new IllegalArgumentException("The value must be an integer of 1 byte");
         }
-        prep(1, 0);
+        prep(Mr.TYPE_SIZE, 0);
         return putType(x);
     }
 
@@ -195,9 +195,8 @@ public class MrBufferBuilder {
      * @param x An `int` to put into the buffer.
      */
     public void putInt(int x) {
-        //bb.writeInt(x);
-        bb.writeBytes(Referencia.intToByteArray(x));
-        
+//        bb.writeBytes(Referencia.intToByteArray(x));
+        bb.writeInt(x);
     }
 
     /**
@@ -207,8 +206,8 @@ public class MrBufferBuilder {
      * @param x A `long` to put into the buffer.
      */
     public void putLong(long x) {
-        //bb.writeLong(x);
-        bb.writeBytes(Referencia.longToByteArray(x));
+//        bb.writeBytes(Referencia.longToByteArray(x));
+        bb.writeLong(x);
     }
 
     /**
@@ -232,7 +231,6 @@ public class MrBufferBuilder {
     }
 
     /**
-     *
      * @param x
      */
     public void putChar(char x) {
@@ -268,7 +266,6 @@ public class MrBufferBuilder {
         bb.writeBytes(utf8);
         return id;
     }
-
     /**
      * Get the ByteBuffer representing the MrBufferBuilder.
      */

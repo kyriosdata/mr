@@ -38,14 +38,10 @@ public interface Text {
     /**
      * Adiciona um código
      * - {@code CODE_PHRASE}.
-     *
-     * @param terminologyId Um identificador de terminologia.
-     * @param codeString    A sequência correspondente ao código.
+     * @param value
      * @return O identificador único do código na estrutura.
      */
-    int adicionaCodePhrase(String terminologyId, String codeString);
-
-    int adicionaCodePhrase(String code);
+    int adicionaCodePhrase(String value);
 
     /**
      * @param value

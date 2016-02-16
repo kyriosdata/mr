@@ -71,7 +71,7 @@ public interface Mr extends
         // datatypes
         Basic,
 // , Encapsulated, Quantity,
-//        Text,
+        Text,
 //        TimeSpecification,
         Uri
         // common
@@ -83,8 +83,14 @@ public interface Mr extends
 {
 
     final int TYPE_SIZE = 1;
+    final int BYTE_SIZE = 1;
+    final int CHAR_SIZE = 1;
+    final int BOOLEAN_SIZE = 2;
+    final int SHORT_SIZE = 2;
     final int INT_SIZE = 4;
-    final int STRING_ID = 10;
+    final int FLOAT_SIZE = 4;
+    final int DOUBLE_SIZE = 8;
+    final int LONG_SIZE = 8;
 
     /**
      * Identificador do tipo DV_URI.
@@ -156,4 +162,5 @@ public interface Mr extends
      */
     final int DV_PERIODIC_TIME_SPECIFICATION = 14;
 
+    final int TERMINOLOGY_ID = 15;
 }

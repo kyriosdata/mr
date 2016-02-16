@@ -7,8 +7,10 @@ package br.inf.ufg.fabrica.mr.impl;
 import br.inf.ufg.fabrica.mr.Mr;
 import br.inf.ufg.fabrica.mr.datatypes.Text;
 import br.inf.ufg.fabrica.mr.mrbuffers.MrBufferBuilder;
+import io.netty.buffer.ByteBuf;
 
 import java.net.URI;
+import java.nio.ByteBuffer;
 
 /**
  * Implementação do modelo de referência.
@@ -19,12 +21,19 @@ public class MrImpl implements Mr {
     MrBufferBuilder vectorBB;
 
     public MrImpl(int initial_size) {
-        this.bufferBuilder = new MrBufferBuilder(initial_size);
-        this.vectorBB = new MrBufferBuilder(initial_size);
+        if (initial_size <= 0) initial_size = 1;
+        bufferBuilder = new MrBufferBuilder(initial_size);
+        // header
+        bufferBuilder.addInt(0); // list index
+        vectorBB = new MrBufferBuilder(initial_size);
     }
 
     public MrImpl() {
         this(1);
+    }
+
+    public int getListIndex() {
+        return 0;
     }
 
     public MrBufferBuilder getBufferBuilder() {
@@ -108,5 +117,133 @@ public class MrImpl implements Mr {
         int id = bufferBuilder.addType(DV_EHR_URI);
         bufferBuilder.addInt(vectorBB.createString(uri));
         return id;
+    }
+
+    /**
+     * Adiciona uma série de textos simples para ser exibido como um parágrafo
+     * - {@code DV_PARAGRAPH }.
+     *
+     * @param itemsList A sequência de {@code DV_TEXT}s.
+     * @return O identificador único do parágrafo na estrutura.
+     */
+    public int adicionaDvParagraph(int itemsList) {
+        return 0;
+    }
+
+    /**
+     * Adiciona uma expressão de texto com qualquer quantidade de caracteres podendo formar palavras,
+     * sentenças e etc. Formatação visual e hiperlinks podem ser incluídos
+     * - {@code DV_TEXT}.
+     *
+     * @param value
+     * @param hyperlink          {@code DV_URI}
+     * @param formatting
+     * @param mappings           {@code TERM_MAPPING}
+     * @param codePhraseLanguage {@code CODE_PHRASE}
+     * @param codePhraseEncoding {@code CODE_PHRASE}
+     * @return identificador único da exoressão de texto na extrutura.
+     */
+    public int adicionaDvText(String value, String hyperlink, String formatting, int mappings, String codePhraseLanguage, String codePhraseEncoding) {
+        int hyperlinkId = adicionaDvUri(hyperlink);
+        int laguageId = adicionaCodePhrase(codePhraseLanguage);
+        int encodingId = adicionaCodePhrase(codePhraseEncoding);
+        int id = bufferBuilder.addType(DV_TEXT);
+        bufferBuilder.addInt(mappings);
+        bufferBuilder.addInt(hyperlinkId);
+        bufferBuilder.addInt(laguageId);
+        bufferBuilder.addInt(encodingId);
+        bufferBuilder.addInt(vectorBB.createString(formatting));
+        bufferBuilder.addInt(vectorBB.createString(value));
+        return id;
+    }
+
+    /**
+     * Adiciona um código
+     * - {@code CODE_PHRASE}.
+     *
+     * @param value
+     * @return O identificador único do código na estrutura.
+     */
+    public int adicionaCodePhrase(String value) {
+        int id = bufferBuilder.addType(CODE_PHRASE);
+        bufferBuilder.addInt(vectorBB.createString(value));
+        return id;
+    }
+
+    /**
+     * @param value
+     * @param hyperlink          {@code DV_URI}
+     * @param formatting
+     * @param mappings           {@code TERM_MAPPING}
+     * @param codePhraseLanguage {@code CODE_PHRASE}
+     * @param codePhraseEncoding {@code CODE_PHRASE}
+     * @param definingCode
+     * @return identificador único da exoressão de texto na extrutura.
+     * @see #adicionaDvText(String, String, String, int, String, String)
+     * @see #adicionaCodePhrase(String, String)
+     */
+    public int adicionaDvCodedText(String value, String hyperlink, String formatting, int mappings, String codePhraseLanguage, String codePhraseEncoding, int definingCode) {
+        return 0;
+    }
+
+    /**
+     * TODO: como tratar referencias e valores nulos? - ocupar o espaço nulo com bytes vazios
+     *
+     * @param target  O termo alvo do mapeamento {@code CODE_PHRASE}.
+     * @param match   Operador de equivalencia entre os termos.
+     * @param purpose Finalidade do mapemento {@code DV_CODED_TEXT}. Ex: "automated", "data mining", "interoperability".
+     * @return
+     * @see #adicionaCodePhrase(String, String)
+     * @see #adicionaDvCodedText(String, String, String, int, String, String, int)
+     */
+    public int adicionaTermMapping(int target, char match, int purpose) {
+        int id = addIdFromType(TERMINOLOGY_ID, true);
+        bufferBuilder.addInt(target);
+        bufferBuilder.addInt(purpose);
+        bufferBuilder.addChar(match);
+        return id;
+    }
+
+    /**
+     * Adiciona um identificador de terminologia ({@code TERMINOLOGY_ID}).
+     *
+     * @param valor Identificador de terminologia.
+     * @return O identificador único do objeto criado.
+     */
+    public int adicionaTerminologyId(String valor) {
+        return adicionaTerminologyId(valor, true);
+    }
+
+    public int adicionaTerminologyId(String valor, boolean withId) {
+        int id = addIdFromType(TERMINOLOGY_ID, withId);
+        bufferBuilder.addInt(vectorBB.createString(valor));
+        return id;
+    }
+
+    private int addIdFromType(int type, boolean withId) {
+        return withId ? bufferBuilder.addType(type) : bufferBuilder.offset();
+    }
+
+    public byte[] toByteArray() {
+        return toByteByffer().array();
+    }
+
+    /**
+     * @see #getListIndex()
+     * @return
+     */
+    public ByteBuffer toByteByffer() {
+        ByteBuf byteBuf = bufferBuilder.dataBuffer().copy();
+        byteBuf.setInt(getListIndex(), byteBuf.writerIndex());
+        byteBuf.writeBytes(vectorBB.dataBuffer().duplicate());
+        return byteBuf.capacity(byteBuf.nioBuffer().remaining()).nioBuffer();
+    }
+
+    public static void printByteArray(byte[] buffer) {
+        int i = 0;
+        for (byte x : buffer) {
+            System.out.println("" + i + " - " + x);
+            i++;
+        }
     }
 }
