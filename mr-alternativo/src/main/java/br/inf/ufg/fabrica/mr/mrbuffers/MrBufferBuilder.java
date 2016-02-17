@@ -246,11 +246,7 @@ public class MrBufferBuilder {
      */
     public int createString(String s) {
         byte[] utf8 = s.getBytes(utf8charset);
-        int id = offset();
-        addInt(utf8.length); // size
-        prep(utf8.length, 0);
-        bb.writeBytes(utf8);
-        return id;
+        return addByteArray(utf8);
     }
 
     public int addByteArray(byte[] arr) {

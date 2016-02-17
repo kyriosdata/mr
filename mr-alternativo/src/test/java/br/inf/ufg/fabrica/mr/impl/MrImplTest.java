@@ -122,8 +122,6 @@ public class MrImplTest {
         MrImpl mr = new MrImpl();
 
         mr.adicionaCodePhrase("centc251::nnnnnnn");
-
-        printByteArray(mr.getBufferBuilder().dataBuffer().array());
     }
 
     @Test
