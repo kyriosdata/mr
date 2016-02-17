@@ -430,7 +430,7 @@ public class MrImpl implements Mr {
     * (a) o objeto não existe;
     * (b) o campo não existe.
     */
-    int obtemQtdeBytes(int id, int campo){
+    public int obtemQtdeBytes(int id, int campo){
         return 0;
     }
     
@@ -451,8 +451,8 @@ public class MrImpl implements Mr {
     * (c) ini negativo; (d) ini maior do que fim;
     * (e) fim maior do que o tamanho total do campo.
     */
-    byte[] obtemBytes(int id, int campo, int ini, int fim){
-        return 0;
+    public byte[] obtemBytes(int id, int campo, int ini, int fim){
+        return null;
     }
     
     
@@ -468,7 +468,7 @@ public class MrImpl implements Mr {
     * (a) o objeto não existe;
     * (b) o campo não existe;
     */
-    byte[] obtemBytes(int id, int campo){
+    public byte[] obtemBytes(int id, int campo){
         return null;
     }
     
@@ -485,11 +485,11 @@ public class MrImpl implements Mr {
     *
     * @see #obtemRaiz()
     *
-    * @param O identificador único da raiz.
+    * @param raiz O identificador único da raiz.
     *
     * @throws IllegalArgumentException O objeto raiz não existe.
     */
-    void defineRaiz(int raiz){
+    public void defineRaiz(int raiz){
         
     }
     
@@ -504,7 +504,7 @@ public class MrImpl implements Mr {
     *
     * @return O identificador único da raiz.
     */
-    int obtemRaiz(){
+    public int obtemRaiz(){
         return 0;
     }
     
@@ -531,7 +531,7 @@ public class MrImpl implements Mr {
     * @return Total de objetos mantidos pela instância. O
     * primeiro é zero.
     */
-    int totalObjetos(){
+    public int totalObjetos(){
         return 0;
     }
     
@@ -542,7 +542,7 @@ public class MrImpl implements Mr {
     * @return Valor inteiro correspondente ao tipo do
     * objeto.
     */
-    int obtemTipo(int id){
+    public int obtemTipo(int id){
         return 0;
     }
         
@@ -552,7 +552,7 @@ public class MrImpl implements Mr {
     * @param lista Identificador da lista.
     * @throws IllegalArgumentException a lista não existe.
     */
-    int obtemTamanhoLista(int lista){
+    public int obtemTamanhoLista(int lista){
         return 0;
     }
     
@@ -572,7 +572,7 @@ public class MrImpl implements Mr {
     * @throws IllegalArgumentException a lista não existe.
     *
     */
-    int buscaEmLista(int lista, int objeto){
+    public int buscaEmLista(int lista, int objeto){
         return 0;
     }
     
@@ -587,7 +587,7 @@ public class MrImpl implements Mr {
     * @param objeto Identificador do objeto
     * a ser eliminado.
     */
-    void elimineObjeto(int objeto){
+    public void elimineObjeto(int objeto){
         
     }
 }
