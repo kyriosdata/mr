@@ -71,10 +71,10 @@ import br.inf.ufg.fabrica.mr.datatypes.*;
 public interface Mr extends
         // datatypes
         Basic,
-        Encapsulated, 
+        Encapsulated,
         Quantity,
         Text,
-        TimeSpecification,
+//        TimeSpecification,
         Uri,
         // common
         Archetyped,
