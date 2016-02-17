@@ -416,4 +416,178 @@ public class MrImpl implements Mr {
     public int getStringLength(int x) {
         return vectorBB.dataBuffer().getInt(x);
     }
+    
+    
+    /**
+    * Retorna o tamanho, em bytes, de um campo de um objeto.
+    *
+    * @param id O identificador único do objeto.
+    * @param campo A ordem do campo, iniciada por 0.
+    *
+    * @return Quantidade de bytes do campo do objeto.
+    *
+    * @throws IllegalArgumentException Nos seguintes casos:
+    * (a) o objeto não existe;
+    * (b) o campo não existe.
+    */
+    int obtemQtdeBytes(int id, int campo){
+        return 0;
+    }
+    
+    /**
+    * Recupera parte do campo do objeto,
+    * conforme a capacidade de memória suportada.
+    *
+    * @param id O identificador único do objeto.
+    * @param campo A ordem do campo, iniciada por 0.
+    * @param ini A posição do byte inicial.
+    * @param fim A posição do byte final.
+    *
+    * @return Parte do campo do objeto.
+    *
+    * @throws IllegalArgumentException Nos seguintes casos:
+    * (a) o objeto não existe;
+    * (b) o campo não existe;
+    * (c) ini negativo; (d) ini maior do que fim;
+    * (e) fim maior do que o tamanho total do campo.
+    */
+    byte[] obtemBytes(int id, int campo, int ini, int fim){
+        return 0;
+    }
+    
+    
+    /**
+    * Recupera o campo do objeto.
+    *
+    * @param id O identificador único do objeto.
+    * @param campo A ordem do campo, iniciada por 0.
+    *
+    * @return Sequência de bytes correspondente ao campo.
+    *
+    * @throws IllegalArgumentException Nos seguintes casos:
+    * (a) o objeto não existe;
+    * (b) o campo não existe;
+    */
+    byte[] obtemBytes(int id, int campo){
+        return null;
+    }
+    
+    /**
+    * Define a raiz do presente objeto.
+    *
+    * <p>Uma instância desta interface é um grafo com uma
+    * raiz única. Após todos os objetos serem adicionados
+    * ao grafo, partindo dos objetos "primitivos" até o objeto
+    * de mais "alto nível" (raiz), este método deve ser chamado
+    * a fim de guardar a identificação da raiz. Isso possibilita
+    * que seja estabelecido um ponto de acesso único ao grafo
+    * para uma posterior remontagem.</p>
+    *
+    * @see #obtemRaiz()
+    *
+    * @param O identificador único da raiz.
+    *
+    * @throws IllegalArgumentException O objeto raiz não existe.
+    */
+    void defineRaiz(int raiz){
+        
+    }
+    
+    /**
+    * Obtém o identificador da raiz do presente objeto.
+    *
+    * <p>Este método retorna o identificador que determina
+    * o ponto inicial para remontagem do grafo de objetos,
+    * conforme a especificação do Modelo de Referência.</p>
+    *
+    * @see #defineRaiz(int)
+    *
+    * @return O identificador único da raiz.
+    */
+    int obtemRaiz(){
+        return 0;
+    }
+    
+    /**
+    * Obtém o total de objetos, instâncias de elementos
+    * do Modelo de Referência, ocupados pelo presente
+    * objeto.
+    *
+    * <p>Uma instância desta interface é um grafo de
+    * objetos. O presente método permite identificar
+    * quantos objetos fazem parte deste grafo.</p>
+    *
+    * <p>Objeto aqui deve ser interpretado como
+    * instância de "classe" do Modelo de Referência
+    * do openEHR. Ou seja, não necessariamente este valor
+    * é quantidade de instâncias de classes em Java
+    * empregadas para representar o presente grafo de
+    * objetos.</p>
+    *
+    * <p>Se o valor retornado é 3, então existem,
+    * no presente grafo, três objetos, cujos
+    * identificadores são 0, 1 e 2.</p>
+    *
+    * @return Total de objetos mantidos pela instância. O
+    * primeiro é zero.
+    */
+    int totalObjetos(){
+        return 0;
+    }
+    
+    /**
+    * Retorna inteiro que identifica o tipo do objeto
+    * identificado.
+    * @param id O identificador do objeto.
+    * @return Valor inteiro correspondente ao tipo do
+    * objeto.
+    */
+    int obtemTipo(int id){
+        return 0;
+    }
+        
+    /**
+    * Retorna o tamanho da lista de objetos.
+    *
+    * @param lista Identificador da lista.
+    * @throws IllegalArgumentException a lista não existe.
+    */
+    int obtemTamanhoLista(int lista){
+        return 0;
+    }
+    
+    /**
+    * Procura pelo objeto na lista.
+    *
+    * @param lista Identificador da lista onde o
+    * objeto será procurado.
+    * @param objeto Identificador do objeto
+    * a ser procurado. Esse é um
+    * objeto temporário, construído
+    * com a classe ObjectTemp.
+    * @return Ordem na lista onde o objeto se
+    * encontra, ou o valor -1, caso o objeto não
+    * esteja presente na lista.
+    *
+    * @throws IllegalArgumentException a lista não existe.
+    *
+    */
+    int buscaEmLista(int lista, int objeto){
+        return 0;
+    }
+    
+    /**
+    * Elimina o objeto.
+    *
+    * <p>Este método é particularmente útil
+    * durante uma busca, onde um objeto foi
+    * construído especificamente para esta
+    * finalidade.</p>
+    *
+    * @param objeto Identificador do objeto
+    * a ser eliminado.
+    */
+    void elimineObjeto(int objeto){
+        
+    }
 }
