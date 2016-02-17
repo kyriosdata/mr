@@ -65,7 +65,7 @@ public class MrBufferBuilder {
      * @param x A `boolean` to put into the buffer.
      */
     public void addBoolean(boolean x) {
-        prep(Mr.BOOLEAN_SIZE, 0);
+//        prep(Mr.BOOLEAN_SIZE, 0);
         putBoolean(x);
     }
 
@@ -255,6 +255,10 @@ public class MrBufferBuilder {
         prep(arr.length, 0);
         bb.writeBytes(arr);
         return id;
+    }
+
+    public void addString(String s) {
+
     }
 
     /**

@@ -20,6 +20,7 @@ public class MrImpl implements Mr {
 
     MrBufferBuilder bufferBuilder;
     MrBufferBuilder vectorBB;
+    boolean nested = false;
 
     public MrImpl(int initial_size) {
         if (initial_size <= 0) initial_size = 1;
@@ -47,12 +48,21 @@ public class MrImpl implements Mr {
         return 0;
     }
 
+    private MrBufferBuilder getBuilder() {
+        return nested ? vectorBB : bufferBuilder;
+    }
+
     public MrBufferBuilder getBufferBuilder() {
         return bufferBuilder;
     }
 
     public MrBufferBuilder getVectorBB() {
         return vectorBB;
+    }
+
+    public void startVector(int type, int numElems) {
+        if (!(type > 0 && type < 156)) throw new AssertionError("MrImplement: invalid object type.");
+
     }
 
     /**
@@ -63,8 +73,8 @@ public class MrImpl implements Mr {
      * @return Identificador do valor lógico adicionado.
      */
     public int adicionaDvBoolean(boolean valor) {
-        int id = bufferBuilder.addType(DV_BOOLEAN);
-        bufferBuilder.addBoolean(valor);
+        int id = getBuilder().addType(DV_BOOLEAN);
+        getBuilder().addBoolean(valor);
         return id;
     }
 
@@ -79,11 +89,11 @@ public class MrImpl implements Mr {
      * @return O identificador único deste identificador na estrutura.
      */
     public int adicionaDvIdentifier(String issuer, String assigner, String id, String type) {
-        int i = bufferBuilder.addType(DV_IDENTIFIER);
-        bufferBuilder.addInt(vectorBB.createString(issuer));
-        bufferBuilder.addInt(vectorBB.createString(assigner));
-        bufferBuilder.addInt(vectorBB.createString(id));
-        bufferBuilder.addInt(vectorBB.createString(type));
+        int i = getBuilder().addType(DV_IDENTIFIER);
+        getBuilder().addString(issuer);
+        getBuilder().addInt(vectorBB.createString(assigner));
+        getBuilder().addInt(vectorBB.createString(id));
+        getBuilder().addInt(vectorBB.createString(type));
         return i;
     }
 
@@ -97,9 +107,9 @@ public class MrImpl implements Mr {
      * @see Text#adicionaDvCodedText(String, String, String, int, String, String, int)
      */
     public int adicionaDvState(int value, boolean terminal) {
-        int id = bufferBuilder.addType(DV_STATE);
-        bufferBuilder.addInt(value);
-        bufferBuilder.addBoolean(terminal);
+        int id = getBuilder().addType(DV_STATE);
+        getBuilder().addInt(value);
+        getBuilder().addBoolean(terminal);
         return id;
     }
 
@@ -111,8 +121,8 @@ public class MrImpl implements Mr {
      * @return O identificador único desta URI na estrutura.
      */
     public int adicionaDvUri(String uri) {
-        int id = bufferBuilder.addType(DV_URI);
-        bufferBuilder.addInt(vectorBB.createString(uri));
+        int id = getBuilder().addType(DV_URI);
+        getBuilder().addInt(vectorBB.createString(uri));
         return id;
     }
 
@@ -125,8 +135,8 @@ public class MrImpl implements Mr {
      * @return O identificador único desta DvEHRURI na estrutura.
      */
     public int adicionaDvEhrUri(String uri) {
-        int id = bufferBuilder.addType(DV_EHR_URI);
-        bufferBuilder.addInt(vectorBB.createString(uri));
+        int id = getBuilder().addType(DV_EHR_URI);
+        getBuilder().addInt(vectorBB.createString(uri));
         return id;
     }
 
@@ -138,7 +148,22 @@ public class MrImpl implements Mr {
      * @return O identificador único do parágrafo na estrutura.
      */
     public int adicionaDvParagraph(int itemsList) {
-        return 0;
+        int id = getBuilder().addType(DV_PARAGRAPH);
+        getBuilder().addInt(itemsList);
+        return id;
+    }
+
+    /**
+     * Adiciona um código
+     * - {@code CODE_PHRASE}.
+     *
+     * @param value
+     * @return O identificador único do código na estrutura.
+     */
+    public int adicionaCodePhrase(String value) {
+        int id = getBuilder().addType(CODE_PHRASE);
+        getBuilder().addInt(vectorBB.createString(value));
+        return id;
     }
 
     /**
@@ -158,26 +183,13 @@ public class MrImpl implements Mr {
         int hyperlinkId = adicionaDvUri(hyperlink);
         int laguageId = adicionaCodePhrase(codePhraseLanguage);
         int encodingId = adicionaCodePhrase(codePhraseEncoding);
-        int id = bufferBuilder.addType(DV_TEXT);
-        bufferBuilder.addInt(mappings);
-        bufferBuilder.addInt(hyperlinkId);
-        bufferBuilder.addInt(laguageId);
-        bufferBuilder.addInt(encodingId);
-        bufferBuilder.addInt(vectorBB.createString(formatting));
-        bufferBuilder.addInt(vectorBB.createString(value));
-        return id;
-    }
-
-    /**
-     * Adiciona um código
-     * - {@code CODE_PHRASE}.
-     *
-     * @param value
-     * @return O identificador único do código na estrutura.
-     */
-    public int adicionaCodePhrase(String value) {
-        int id = bufferBuilder.addType(CODE_PHRASE);
-        bufferBuilder.addInt(vectorBB.createString(value));
+        int id = getBuilder().addType(DV_TEXT);
+        getBuilder().addInt(mappings);
+        getBuilder().addInt(hyperlinkId);
+        getBuilder().addInt(laguageId);
+        getBuilder().addInt(encodingId);
+        getBuilder().addInt(vectorBB.createString(formatting));
+        getBuilder().addInt(vectorBB.createString(value));
         return id;
     }
 
@@ -194,7 +206,18 @@ public class MrImpl implements Mr {
      * @see #adicionaCodePhrase(String)
      */
     public int adicionaDvCodedText(String value, String hyperlink, String formatting, int mappings, String codePhraseLanguage, String codePhraseEncoding, int definingCode) {
-        return 0;
+        int hyperlinkId = adicionaDvUri(hyperlink);
+        int laguageId = adicionaCodePhrase(codePhraseLanguage);
+        int encodingId = adicionaCodePhrase(codePhraseEncoding);
+        int id = getBuilder().addType(DV_CODED_TEXT);
+        getBuilder().addInt(mappings);
+        getBuilder().addInt(hyperlinkId);
+        getBuilder().addInt(laguageId);
+        getBuilder().addInt(encodingId);
+        getBuilder().addInt(definingCode);
+        getBuilder().addInt(vectorBB.createString(formatting));
+        getBuilder().addInt(vectorBB.createString(value));
+        return id;
     }
 
     /**
@@ -209,9 +232,9 @@ public class MrImpl implements Mr {
      */
     public int adicionaTermMapping(int target, char match, int purpose) {
         int id = addIdFromType(TERM_MAPPING, true);
-        bufferBuilder.addInt(target);
-        bufferBuilder.addInt(purpose);
-        bufferBuilder.addChar(match);
+        getBuilder().addInt(target);
+        getBuilder().addInt(purpose);
+        getBuilder().addChar(match);
         return id;
     }
 
@@ -227,7 +250,7 @@ public class MrImpl implements Mr {
 
     public int adicionaTerminologyId(String valor, boolean withId) {
         int id = addIdFromType(TERMINOLOGY_ID, withId);
-        bufferBuilder.addInt(vectorBB.createString(valor));
+        getBuilder().addInt(vectorBB.createString(valor));
         return id;
     }
 
@@ -238,16 +261,16 @@ public class MrImpl implements Mr {
                                     int hDvMultimediaThumbnail, String dvUri, byte[] data) {
 
         int id = addIdFromType(DV_MULTIMEDIA, true);
-        bufferBuilder.addInt(vectorBB.createString(codePhraseCharSet));
-        bufferBuilder.addInt(vectorBB.createString(codePhraseLanguage));
-        bufferBuilder.addInt(vectorBB.createString(alternateText));
-        bufferBuilder.addInt(vectorBB.createString(codePhraseMediaType));
-        bufferBuilder.addInt(vectorBB.createString(codePhraseCompressionAlgorithm));
-        bufferBuilder.addInt(vectorBB.addByteArray(integrityCheck));
-        bufferBuilder.addInt(vectorBB.createString(codePhraseIntegrityCheckAlgorithm));
-        bufferBuilder.addInt(hDvMultimediaThumbnail);
-        bufferBuilder.addInt(vectorBB.createString(dvUri));
-        bufferBuilder.addInt(vectorBB.addByteArray(integrityCheck));
+        getBuilder().addInt(vectorBB.createString(codePhraseCharSet));
+        getBuilder().addInt(vectorBB.createString(codePhraseLanguage));
+        getBuilder().addInt(vectorBB.createString(alternateText));
+        getBuilder().addInt(vectorBB.createString(codePhraseMediaType));
+        getBuilder().addInt(vectorBB.createString(codePhraseCompressionAlgorithm));
+        getBuilder().addInt(vectorBB.addByteArray(integrityCheck));
+        getBuilder().addInt(vectorBB.createString(codePhraseIntegrityCheckAlgorithm));
+        getBuilder().addInt(hDvMultimediaThumbnail);
+        getBuilder().addInt(vectorBB.createString(dvUri));
+        getBuilder().addInt(vectorBB.addByteArray(integrityCheck));
 
         return id;
     }
@@ -259,15 +282,15 @@ public class MrImpl implements Mr {
                                     String dvUri, byte[] data) {
 
         int id = addIdFromType(DV_MULTIMEDIA, true);
-        bufferBuilder.addInt(vectorBB.createString(codePhraseCharSet));
-        bufferBuilder.addInt(vectorBB.createString(codePhraseLanguage));
-        bufferBuilder.addInt(vectorBB.createString(alternateText));
-        bufferBuilder.addInt(vectorBB.createString(codePhraseMediaType));
-        bufferBuilder.addInt(vectorBB.createString(codePhraseCompressionAlgorithm));
-        bufferBuilder.addInt(vectorBB.addByteArray(integrityCheck));
-        bufferBuilder.addInt(vectorBB.createString(codePhraseIntegrityCheckAlgorithm));
-        bufferBuilder.addInt(vectorBB.createString(dvUri));
-        bufferBuilder.addInt(vectorBB.addByteArray(integrityCheck));
+        getBuilder().addInt(vectorBB.createString(codePhraseCharSet));
+        getBuilder().addInt(vectorBB.createString(codePhraseLanguage));
+        getBuilder().addInt(vectorBB.createString(alternateText));
+        getBuilder().addInt(vectorBB.createString(codePhraseMediaType));
+        getBuilder().addInt(vectorBB.createString(codePhraseCompressionAlgorithm));
+        getBuilder().addInt(vectorBB.addByteArray(integrityCheck));
+        getBuilder().addInt(vectorBB.createString(codePhraseIntegrityCheckAlgorithm));
+        getBuilder().addInt(vectorBB.createString(dvUri));
+        getBuilder().addInt(vectorBB.addByteArray(integrityCheck));
 
         return id;
     }
@@ -276,10 +299,10 @@ public class MrImpl implements Mr {
                                   String codePhraseLanguage, String value, String formalism) {
 
         int id = addIdFromType(DV_PARSABLE, true);
-        bufferBuilder.addInt(vectorBB.createString(codePhraseCharSet));
-        bufferBuilder.addInt(vectorBB.createString(codePhraseLanguage));
-        bufferBuilder.addInt(vectorBB.createString(value));
-        bufferBuilder.addInt(vectorBB.createString(formalism));
+        getBuilder().addInt(vectorBB.createString(codePhraseCharSet));
+        getBuilder().addInt(vectorBB.createString(codePhraseLanguage));
+        getBuilder().addInt(vectorBB.createString(value));
+        getBuilder().addInt(vectorBB.createString(formalism));
 
         return id;
     }
@@ -288,11 +311,11 @@ public class MrImpl implements Mr {
                                  String normalStatusCodePhrase, int value, int symbolDvCodedText) {
 
         int id = addIdFromType(DV_ORDINAL, true);
-        bufferBuilder.addInt(otherReferenceRanges);
-        bufferBuilder.addInt(normalRange);
-        bufferBuilder.addInt(vectorBB.createString(normalStatusCodePhrase));
-        bufferBuilder.addInt(value);
-        bufferBuilder.addInt(symbolDvCodedText);
+        getBuilder().addInt(otherReferenceRanges);
+        getBuilder().addInt(normalRange);
+        getBuilder().addInt(vectorBB.createString(normalStatusCodePhrase));
+        getBuilder().addInt(value);
+        getBuilder().addInt(symbolDvCodedText);
 
         return id;
 
@@ -308,7 +331,7 @@ public class MrImpl implements Mr {
     }
 
     private int addIdFromType(int type, boolean withId) {
-        return withId ? bufferBuilder.addType(type) : bufferBuilder.offset();
+        return withId ? getBuilder().addType(type) : getBuilder().offset();
     }
 
     public byte[] toBytes() {
