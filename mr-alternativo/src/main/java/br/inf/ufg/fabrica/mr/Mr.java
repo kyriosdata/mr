@@ -1,7 +1,9 @@
 package br.inf.ufg.fabrica.mr;
 
-import br.inf.ufg.fabrica.mr.common.Archetyped;
-import br.inf.ufg.fabrica.mr.datatypes.*;
+import br.inf.ufg.fabrica.mr.datatypes.Basic;
+import br.inf.ufg.fabrica.mr.datatypes.Encapsulated;
+import br.inf.ufg.fabrica.mr.datatypes.Text;
+import br.inf.ufg.fabrica.mr.datatypes.Uri;
 
 /**
  * Fábrica de objetos baseados no Modelo de Referência
@@ -72,14 +74,15 @@ public interface Mr extends
         // datatypes
         Basic,
         Encapsulated,
-        Quantity,
+//        Quantity,
         Text,
 //        TimeSpecification,
-        Uri,
+        Uri
+//        Identification,
         // common
-        Archetyped,
+//        Archetyped
         // support
-        Identification
+//        Identification
         // extra
 //        Campo
 {

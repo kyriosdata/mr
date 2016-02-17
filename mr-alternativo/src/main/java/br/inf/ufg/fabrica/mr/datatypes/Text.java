@@ -53,7 +53,7 @@ public interface Text {
      * @param definingCode
      * @return identificador único da exoressão de texto na extrutura.
      * @see #adicionaDvText(String, String, String, int, String, String)
-     * @see #adicionaCodePhrase(String, String)
+     * @see #adicionaCodePhrase(String)
      */
     int adicionaDvCodedText(
             String value, String hyperlink, String formatting,
@@ -66,7 +66,7 @@ public interface Text {
      * @param match   Operador de equivalencia entre os termos.
      * @param purpose Finalidade do mapemento {@code DV_CODED_TEXT}. Ex: "automated", "data mining", "interoperability".
      * @return
-     * @see #adicionaCodePhrase(String, String)
+     * @see #adicionaCodePhrase(String)
      * @see #adicionaDvCodedText(String, String, String, int, String, String, int)
      */
     int adicionaTermMapping(int target, char match, int purpose);

@@ -28,9 +28,9 @@ public class MrImplTest {
 
         int index = mr.adicionaDvBoolean(true);
 
-        assertEquals(2, index);
-        assertEquals(Mr.DV_BOOLEAN, mr.getBufferBuilder().dataBuffer().getByte(2));
-        assertEquals(true, mr.getBufferBuilder().dataBuffer().getBoolean(3));
+        assertEquals(6, index);
+        assertEquals(Mr.DV_BOOLEAN, mr.getByte(6));
+        assertEquals(true, mr.getBoolean(7));
     }
 
     @Test
@@ -40,10 +40,10 @@ public class MrImplTest {
 
         int index = mr.adicionaDvState(19875, false);
 
-        assertEquals(6, index);
-        assertEquals(Mr.DV_STATE, mr.getBufferBuilder().dataBuffer().getByte(index));
-        assertEquals(19875, mr.getBufferBuilder().dataBuffer().getInt(7));
-        assertEquals(false, mr.getBufferBuilder().dataBuffer().getBoolean(11));
+        assertEquals(10, index);
+        assertEquals(Mr.DV_STATE, mr.getByte(index));
+        assertEquals(19875, mr.getInt(11));
+        assertEquals(false, mr.getBoolean(15));
     }
 
     @Test
@@ -52,33 +52,33 @@ public class MrImplTest {
 
         int index = mr.adicionaDvIdentifier("issuer", "assigner", "id", "type");
 
-        assertEquals(0, index);
-        int type = mr.getBufferBuilder().dataBuffer().getByte(index);
+        assertEquals(4, index);
+        int type = mr.getByte(index);
         assertEquals(Mr.DV_IDENTIFIER, type);
 
-        int issuerIndex = mr.getBufferBuilder().dataBuffer().getInt(index + Mr.TYPE_SIZE);
+        int issuerIndex = mr.getInt(index + Mr.TYPE_SIZE);
         assertEquals(0, issuerIndex);
-        int issuerLenght = mr.getVectorBB().dataBuffer().getInt(issuerIndex);
+        int issuerLenght = mr.getStringLength(issuerIndex);
         assertEquals(6, issuerLenght);
-        assertEquals("issuer", mr.getVectorBB().dataBuffer().toString(issuerIndex + Mr.INT_SIZE, issuerLenght, Charset.forName("UTF-8")));
+        assertEquals("issuer", mr.getString(issuerIndex));
 
-        int assignerIndex = mr.getBufferBuilder().dataBuffer().getInt(index + Mr.TYPE_SIZE + Mr.INT_SIZE);
+        int assignerIndex = mr.getInt(index + Mr.TYPE_SIZE + Mr.INT_SIZE);
         assertEquals(10, assignerIndex);
-        int assignerLenght = mr.getVectorBB().dataBuffer().getInt(assignerIndex);
+        int assignerLenght = mr.getStringLength(assignerIndex);
         assertEquals(8, assignerLenght);
-        assertEquals("assigner", mr.getVectorBB().dataBuffer().toString(assignerIndex + Mr.INT_SIZE, assignerLenght, Charset.forName("UTF-8")));
+        assertEquals("assigner", mr.getString(assignerIndex));
 
-        int idIndex = mr.getBufferBuilder().dataBuffer().getInt(index + Mr.TYPE_SIZE + 2 * Mr.INT_SIZE);
+        int idIndex = mr.getInt(index + Mr.TYPE_SIZE + 2 * Mr.INT_SIZE);
         assertEquals(22, idIndex);
-        int idLenght = mr.getVectorBB().dataBuffer().getInt(idIndex);
+        int idLenght = mr.getStringLength(idIndex);
         assertEquals(2, idLenght);
-        assertEquals("id", mr.getVectorBB().dataBuffer().toString(idIndex + Mr.INT_SIZE, idLenght, Charset.forName("UTF-8")));
+        assertEquals("id", mr.getString(idIndex));
 
-        int typeIndex = mr.getBufferBuilder().dataBuffer().getInt(index + Mr.TYPE_SIZE + 3 * Mr.INT_SIZE);
+        int typeIndex = mr.getInt(index + Mr.TYPE_SIZE + 3 * Mr.INT_SIZE);
         assertEquals(28, typeIndex);
-        int typeLenght = mr.getVectorBB().dataBuffer().getInt(typeIndex);
+        int typeLenght = mr.getStringLength(typeIndex);
         assertEquals(4, typeLenght);
-        assertEquals("type", mr.getVectorBB().dataBuffer().toString(typeIndex + Mr.INT_SIZE, typeLenght, Charset.forName("UTF-8")));
+        assertEquals("type", mr.getString(typeIndex));
     }
 
     @Test
@@ -89,15 +89,14 @@ public class MrImplTest {
         String uri = "http://www.openehr.org/releases";
         int index = mr.adicionaDvUri(uri);
 
-        assertEquals(5, index);
-        int type = mr.getBufferBuilder().dataBuffer().getByte(index);
+        assertEquals(9, index);
+        int type = mr.getByte(index);
         assertEquals(Mr.DV_URI, type);
-        int uriIndex = mr.getBufferBuilder().dataBuffer().getInt(index + Mr.TYPE_SIZE);
+        int uriIndex = mr.getInt(index + Mr.TYPE_SIZE);
         assertEquals(21, uriIndex);
-        int uriLenght = mr.getVectorBB().dataBuffer().getInt(uriIndex);
+        int uriLenght = mr.getStringLength(uriIndex);
         assertEquals(31, uriLenght);
-        int uriStringIndex = uriIndex + Mr.INT_SIZE;
-        assertEquals("http://www.openehr.org/releases", mr.getVectorBB().dataBuffer().toString(uriStringIndex, uriLenght, Charset.forName("UTF-8")));
+        assertEquals("http://www.openehr.org/releases", mr.getString(uriIndex));
     }
 
     @Test
@@ -108,15 +107,14 @@ public class MrImplTest {
         String uri = "http://inf.ufg.br/";
         int index = mr.adicionaDvEhrUri(uri);
 
-        assertEquals(5, index);
-        int type = mr.getBufferBuilder().dataBuffer().getByte(index);
+        assertEquals(9, index);
+        int type = mr.getByte(index);
         assertEquals(Mr.DV_EHR_URI, type);
-        int uriIndex = mr.getBufferBuilder().dataBuffer().getInt(index + Mr.TYPE_SIZE);
+        int uriIndex = mr.getInt(index + Mr.TYPE_SIZE);
         assertEquals(25, uriIndex);
-        int uriLenght = mr.getVectorBB().dataBuffer().getInt(uriIndex);
+        int uriLenght = mr.getStringLength(uriIndex);
         assertEquals(18, uriLenght);
-        int uriStringIndex = uriIndex + Mr.INT_SIZE;
-        assertEquals("http://inf.ufg.br/", mr.getVectorBB().dataBuffer().toString(uriStringIndex, uriLenght, Charset.forName("UTF-8")));
+        assertEquals("http://inf.ufg.br/", mr.getString(uriIndex));
     }
 
     @Test
@@ -156,11 +154,12 @@ public class MrImplTest {
         mr.adicionaTerminologyId("openehr");
 
         int index = mr.adicionaTerminologyId("centc251");
-        assertEquals(5, index);
-        assertEquals(Mr.TERMINOLOGY_ID, mr.getBufferBuilder().dataBuffer().getByte(index));
-        assertEquals(11, mr.getBufferBuilder().dataBuffer().getInt(index + Mr.TYPE_SIZE));
+        assertEquals(9, index);
+        assertEquals(Mr.TERMINOLOGY_ID, mr.getByte(index));
+        assertEquals(11, mr.getInt(index + Mr.TYPE_SIZE));
 
-        assertEquals(10, mr.adicionaTerminologyId("snomed-ct", false));
-        assertEquals(23, mr.getBufferBuilder().dataBuffer().getInt(10));
+        int indexWithoutType = mr.adicionaTerminologyId("snomed-ct", false);
+        assertEquals(14, indexWithoutType);
+        assertEquals(23, mr.getInt(indexWithoutType));
     }
 }

@@ -14,8 +14,6 @@ import java.nio.charset.Charset;
 
 public class MrBufferBuilder {
 
-    // Header
-
     static final Charset utf8charset = Charset.forName("UTF-8");
     ByteBuf bb;
 
@@ -43,10 +41,7 @@ public class MrBufferBuilder {
 
     /**
      * Prepare to write an element of `size` after `additional_bytes`
-     * have been written, e.g. if you write a string, you need to align such
-     * the int length field is aligned to {@link com.google.flatbuffers.Constants#SIZEOF_INT}, and
-     * the string data follows it directly.  If all you need to do is alignment, `additional_bytes`
-     * will be 0.
+     * have been written.
      *
      * @param size             This is the of the new element to write.
      * @param additional_bytes The padding size.
@@ -145,8 +140,7 @@ public class MrBufferBuilder {
     }
 
     /**
-     * Add a `type` to the buffer, backwards from the current location. Doesn't align nor
-     * check for space.
+     * Add a `type` to the buffer.
      *
      * @param x An `int` to put into the buffer.
      */
@@ -159,8 +153,7 @@ public class MrBufferBuilder {
     }
 
     /**
-     * Add a `boolean` to the buffer, backwards from the current location. Doesn't align nor
-     * check for space.
+     * Add a `boolean` to the buffer.
      *
      * @param x A `boolean` to put into the buffer.
      */
@@ -169,8 +162,7 @@ public class MrBufferBuilder {
     }
 
     /**
-     * Add a `byte` to the buffer, backwards from the current location. Doesn't align nor
-     * check for space.
+     * Add a `byte` to the buffer.
      *
      * @param x A `byte` to put into the buffer.
      */
@@ -179,8 +171,7 @@ public class MrBufferBuilder {
     }
 
     /**
-     * Add a `short` to the buffer, backwards from the current location. Doesn't align nor
-     * check for space.
+     * Add a `short` to the buffer.
      *
      * @param x A `short` to put into the buffer.
      */
@@ -189,8 +180,7 @@ public class MrBufferBuilder {
     }
 
     /**
-     * Add an `int` to the buffer, backwards from the current location. Doesn't align nor
-     * check for space.
+     * Add an `int` to the buffer.
      *
      * @param x An `int` to put into the buffer.
      */
@@ -200,8 +190,7 @@ public class MrBufferBuilder {
     }
 
     /**
-     * Add a `long` to the buffer, backwards from the current location. Doesn't align nor
-     * check for space.
+     * Add a `long` to the buffer.
      *
      * @param x A `long` to put into the buffer.
      */
@@ -211,8 +200,7 @@ public class MrBufferBuilder {
     }
 
     /**
-     * Add a `float` to the buffer, backwards from the current location. Doesn't align nor
-     * check for space.
+     * Add a `float` to the buffer.
      *
      * @param x A `float` to put into the buffer.
      */
@@ -221,8 +209,7 @@ public class MrBufferBuilder {
     }
 
     /**
-     * Add a `double` to the buffer, backwards from the current location. Doesn't align nor
-     * check for space.
+     * Add a `double` to the buffer.
      *
      * @param x A `double` to put into the buffer.
      */
@@ -238,8 +225,7 @@ public class MrBufferBuilder {
     }
 
     /**
-     * Add an `int` to the buffer, backwards from the current location. Doesn't align nor
-     * check for space.
+     * Add an `type` to the buffer object.
      *
      * @param x An `int` to put into the buffer.
      */

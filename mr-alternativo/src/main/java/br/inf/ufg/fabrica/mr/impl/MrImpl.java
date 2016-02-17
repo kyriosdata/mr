@@ -11,6 +11,7 @@ import io.netty.buffer.ByteBuf;
 
 import java.net.URI;
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 
 /**
  * Implementação do modelo de referência.
@@ -22,14 +23,24 @@ public class MrImpl implements Mr {
 
     public MrImpl(int initial_size) {
         if (initial_size <= 0) initial_size = 1;
+        // objects
         bufferBuilder = new MrBufferBuilder(initial_size);
         // header
-        bufferBuilder.addInt(0); // list index
+        bufferBuilder.addInt(0); // ref to list index
+        // list
         vectorBB = new MrBufferBuilder(initial_size);
     }
 
     public MrImpl() {
         this(1);
+    }
+
+    public static void printByteArray(byte[] buffer) {
+        int i = 0;
+        for (byte x : buffer) {
+            System.out.println("" + i + " - " + x);
+            i++;
+        }
     }
 
     public int getListIndex() {
@@ -180,7 +191,7 @@ public class MrImpl implements Mr {
      * @param definingCode
      * @return identificador único da exoressão de texto na extrutura.
      * @see #adicionaDvText(String, String, String, int, String, String)
-     * @see #adicionaCodePhrase(String, String)
+     * @see #adicionaCodePhrase(String)
      */
     public int adicionaDvCodedText(String value, String hyperlink, String formatting, int mappings, String codePhraseLanguage, String codePhraseEncoding, int definingCode) {
         return 0;
@@ -193,7 +204,7 @@ public class MrImpl implements Mr {
      * @param match   Operador de equivalencia entre os termos.
      * @param purpose Finalidade do mapemento {@code DV_CODED_TEXT}. Ex: "automated", "data mining", "interoperability".
      * @return
-     * @see #adicionaCodePhrase(String, String)
+     * @see #adicionaCodePhrase(String)
      * @see #adicionaDvCodedText(String, String, String, int, String, String, int)
      */
     public int adicionaTermMapping(int target, char match, int purpose) {
@@ -219,14 +230,13 @@ public class MrImpl implements Mr {
         bufferBuilder.addInt(vectorBB.createString(valor));
         return id;
     }
-    
-    
-    public int adicionaDvMultimedia(String codePhraseCharSet, 
-            String codePhraseLanguage, String alternateText, 
-            String codePhraseMediaType, String codePhraseCompressionAlgorithm,
-            byte[] integrityCheck, String codePhraseIntegrityCheckAlgorithm,
-            int hDvMultimediaThumbnail, String dvUri, byte[] data) {
-            
+
+    public int adicionaDvMultimedia(String codePhraseCharSet,
+                                    String codePhraseLanguage, String alternateText,
+                                    String codePhraseMediaType, String codePhraseCompressionAlgorithm,
+                                    byte[] integrityCheck, String codePhraseIntegrityCheckAlgorithm,
+                                    int hDvMultimediaThumbnail, String dvUri, byte[] data) {
+
         int id = addIdFromType(DV_MULTIMEDIA, true);
         bufferBuilder.addInt(vectorBB.createString(codePhraseCharSet));
         bufferBuilder.addInt(vectorBB.createString(codePhraseLanguage));
@@ -238,15 +248,16 @@ public class MrImpl implements Mr {
         bufferBuilder.addInt(hDvMultimediaThumbnail);
         bufferBuilder.addInt(vectorBB.createString(dvUri));
         bufferBuilder.addInt(vectorBB.addByteArray(integrityCheck));
-        
+
         return id;
     }
-    public int adicionaDvMultimedia(String codePhraseCharSet, 
-            String codePhraseLanguage, String alternateText, 
-            String codePhraseMediaType, String codePhraseCompressionAlgorithm,
-            byte[] integrityCheck, String codePhraseIntegrityCheckAlgorithm,
-            String dvUri, byte[] data) {
-            
+
+    public int adicionaDvMultimedia(String codePhraseCharSet,
+                                    String codePhraseLanguage, String alternateText,
+                                    String codePhraseMediaType, String codePhraseCompressionAlgorithm,
+                                    byte[] integrityCheck, String codePhraseIntegrityCheckAlgorithm,
+                                    String dvUri, byte[] data) {
+
         int id = addIdFromType(DV_MULTIMEDIA, true);
         bufferBuilder.addInt(vectorBB.createString(codePhraseCharSet));
         bufferBuilder.addInt(vectorBB.createString(codePhraseLanguage));
@@ -257,74 +268,152 @@ public class MrImpl implements Mr {
         bufferBuilder.addInt(vectorBB.createString(codePhraseIntegrityCheckAlgorithm));
         bufferBuilder.addInt(vectorBB.createString(dvUri));
         bufferBuilder.addInt(vectorBB.addByteArray(integrityCheck));
-        
+
         return id;
     }
 
-    public int adicionaDvParsable(String codePhraseCharSet, 
-            String codePhraseLanguage, String value, String formalism) {
-        
+    public int adicionaDvParsable(String codePhraseCharSet,
+                                  String codePhraseLanguage, String value, String formalism) {
+
         int id = addIdFromType(DV_PARSABLE, true);
         bufferBuilder.addInt(vectorBB.createString(codePhraseCharSet));
         bufferBuilder.addInt(vectorBB.createString(codePhraseLanguage));
         bufferBuilder.addInt(vectorBB.createString(value));
         bufferBuilder.addInt(vectorBB.createString(formalism));
-        
+
         return id;
     }
 
-    public int adicionaDvOrdinal(int otherReferenceRanges, int normalRange, 
-            String normalStatusCodePhrase, int value, int symbolDvCodedText) {
-        
+    public int adicionaDvOrdinal(int otherReferenceRanges, int normalRange,
+                                 String normalStatusCodePhrase, int value, int symbolDvCodedText) {
+
         int id = addIdFromType(DV_ORDINAL, true);
         bufferBuilder.addInt(otherReferenceRanges);
         bufferBuilder.addInt(normalRange);
         bufferBuilder.addInt(vectorBB.createString(normalStatusCodePhrase));
         bufferBuilder.addInt(value);
         bufferBuilder.addInt(symbolDvCodedText);
-        
+
         return id;
-        
+
     }
 
     public int adicionaDvInterval(int lowerOrdered, int upperOrdered,
-            boolean lowerIncluded, boolean upperIncluded) {
-        return 0;        
+                                  boolean lowerIncluded, boolean upperIncluded) {
+        return 0;
     }
 
     public int adicionaReferenceRange(int lowerOrdered, int upperOrdered, boolean lowerIncluded, boolean upperIncluded, String value, String hyperlink, String formatting, int mappings, String codePhraseLanguage, String codePhraseEncoding) {
         return 0;
     }
 
-    public int adicionaArchetyped(String archetypeId, String templateId, String rmVersion) {
-        return 0;
-    }
-
-
     private int addIdFromType(int type, boolean withId) {
         return withId ? bufferBuilder.addType(type) : bufferBuilder.offset();
     }
 
-    public byte[] toByteArray() {
-        return toByteByffer().array();
+    public byte[] toBytes() {
+        return toByteBuffer().array();
     }
 
     /**
-     * @see #getListIndex()
      * @return
+     * @see #getListIndex()
      */
-    public ByteBuffer toByteByffer() {
+    public ByteBuffer toByteBuffer() {
         ByteBuf byteBuf = bufferBuilder.dataBuffer().copy();
         byteBuf.setInt(getListIndex(), byteBuf.writerIndex());
         byteBuf.writeBytes(vectorBB.dataBuffer().duplicate());
         return byteBuf.capacity(byteBuf.nioBuffer().remaining()).nioBuffer();
     }
 
-    public static void printByteArray(byte[] buffer) {
-        int i = 0;
-        for (byte x : buffer) {
-            System.out.println("" + i + " - " + x);
-            i++;
-        }
+    /**
+     * Get a byte
+     *
+     * @param x
+     * @return
+     */
+    public byte getByte(int x) {
+        return bufferBuilder.dataBuffer().getByte(x);
+    }
+
+    /**
+     * Get a char
+     *
+     * @param x
+     * @return
+     */
+    public char getChar(int x) {
+        return bufferBuilder.dataBuffer().getChar(x);
+    }
+
+    /**
+     * Get boolean
+     *
+     * @param x
+     * @return
+     */
+    public boolean getBoolean(int x) {
+        return bufferBuilder.dataBuffer().getBoolean(x);
+    }
+
+    /**
+     * Get an int
+     *
+     * @param x
+     * @return
+     */
+    public int getInt(int x) {
+        return bufferBuilder.dataBuffer().getInt(x);
+    }
+
+    /**
+     * Get a float
+     *
+     * @param x
+     * @return
+     */
+    public float getFloat(int x) {
+        return bufferBuilder.dataBuffer().getFloat(x);
+    }
+
+    /**
+     * Get a double
+     *
+     * @param x
+     * @return
+     */
+    public double getDouble(int x) {
+        return bufferBuilder.dataBuffer().getDouble(x);
+    }
+
+    /**
+     * Get a long
+     *
+     * @param x
+     * @return
+     */
+    public double getLong(int x) {
+        return bufferBuilder.dataBuffer().getLong(x);
+    }
+
+    /**
+     * Get a string
+     *
+     * @param x
+     * @return
+     */
+    public String getString(int x) {
+        int length = getStringLength(x);
+        return vectorBB.dataBuffer().toString(x + INT_SIZE, length, Charset.forName("UTF-8"));
+    }
+
+    /**
+     * Get string length
+     *
+     * @param x
+     * @return
+     */
+    public int getStringLength(int x) {
+        return vectorBB.dataBuffer().getInt(x);
     }
 }
