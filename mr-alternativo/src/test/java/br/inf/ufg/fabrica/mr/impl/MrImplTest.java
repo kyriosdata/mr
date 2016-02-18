@@ -51,9 +51,7 @@ public class MrImplTest {
         int index = mr.adicionaDvIdentifier("issuer", "assigner", "id", "type");
 
         assertEquals(4, index);
-        int type = mr.getByte(index);
-        assertEquals(Mr.DV_IDENTIFIER, type);
-
+        assertEquals(Mr.DV_IDENTIFIER, mr.getType(index));
         int issuerIndex = mr.getInt(index + Mr.TYPE_SIZE);
         assertEquals(0, issuerIndex);
         int issuerLenght = mr.getStringLength(issuerIndex);
@@ -88,8 +86,7 @@ public class MrImplTest {
         int index = mr.adicionaDvUri(uri);
 
         assertEquals(9, index);
-        int type = mr.getByte(index);
-        assertEquals(Mr.DV_URI, type);
+        assertEquals(Mr.DV_URI, mr.getType(index));
         int uriIndex = mr.getInt(index + Mr.TYPE_SIZE);
         assertEquals(21, uriIndex);
         int uriLenght = mr.getStringLength(uriIndex);
@@ -106,8 +103,7 @@ public class MrImplTest {
         int index = mr.adicionaDvEhrUri(uri);
 
         assertEquals(9, index);
-        int type = mr.getByte(index);
-        assertEquals(Mr.DV_EHR_URI, type);
+        assertEquals(Mr.DV_EHR_URI, mr.getType(index));
         int uriIndex = mr.getInt(index + Mr.TYPE_SIZE);
         assertEquals(25, uriIndex);
         int uriLenght = mr.getStringLength(uriIndex);
@@ -137,6 +133,8 @@ public class MrImplTest {
             mr.adicionaCodePhrase("centc252::nnnnnnn"),
             5, "a", "b"
         );
+
+        assertEquals(19, index);
         assertEquals(Mr.DV_TEXT, mr.getType(index));
         assertEquals(16, mr.getRef(index + 1));
         assertEquals(12, mr.getRef(index + 2));
@@ -158,6 +156,7 @@ public class MrImplTest {
                 18, "a", "b"
         );
 
+        assertEquals(24, index);
         assertEquals(Mr.DV_CODED_TEXT, mr.getType(index));
         assertEquals(21, mr.getRef(index + 1));
         assertEquals(17, mr.getRef(index + 2));
@@ -200,8 +199,9 @@ public class MrImplTest {
         mr.adicionaTerminologyId("openehr");
 
         int index = mr.adicionaTerminologyId("centc251");
+
         assertEquals(9, index);
-        assertEquals(Mr.TERMINOLOGY_ID, mr.getByte(index));
+        assertEquals(Mr.TERMINOLOGY_ID, mr.getType(index));
         assertEquals(11, mr.getInt(index + Mr.TYPE_SIZE));
 
         int indexWithoutType = mr.adicionaTerminologyId("snomed-ct", false);

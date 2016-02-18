@@ -92,7 +92,7 @@ public class MrImpl implements Mr {
      */
     public int adicionaDvIdentifier(String issuer, String assigner, String id, String type) {
         int i = getBuilder().addType(DV_IDENTIFIER);
-        getBuilder().addString(issuer);
+        getBuilder().addInt(vectorBB.createString(issuer));
         getBuilder().addInt(vectorBB.createString(assigner));
         getBuilder().addInt(vectorBB.createString(id));
         getBuilder().addInt(vectorBB.createString(type));
