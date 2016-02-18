@@ -145,9 +145,6 @@ public class MrBufferBuilder {
      * @param x An `int` to put into the buffer.
      */
     public int addType(int x) {
-        if (x >= 0x3F) {
-            throw new IllegalArgumentException("The value must be an integer of 1 byte");
-        }
         prep(Mr.TYPE_SIZE, 0);
         return putType(x);
     }
@@ -237,9 +234,8 @@ public class MrBufferBuilder {
      * @param x An `int` to put into the buffer.
      */
     public int putType(int x) {
-        if (x >= 0x3F) {
-            throw new IllegalArgumentException("The value must be an integer of 1 byte");
-        }
+        if (x < 0 || x > 156) throw new IllegalArgumentException("The value must be an object type valid. Between 0 and 156");
+
         int index = offset();
         bb.writeByte((byte) x);
         return index;

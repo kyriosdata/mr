@@ -86,6 +86,7 @@ public interface Mr extends
         // extra
 //        Campo
 {
+    // ---- Type Size
 
     int TYPE_SIZE = 1;
     int BYTE_SIZE = 1;
@@ -97,6 +98,20 @@ public interface Mr extends
     int DOUBLE_SIZE = 8;
     int LONG_SIZE = 8;
     int REF_SIZE = 1;
+
+    // ---- Header
+
+    /**
+     * Root position in byte array
+     */
+    int ROOT_INDEX = 0;
+
+    /**
+     * List position in byte array
+     */
+    int LIST_INDEX = 4;
+
+    // ---- Object Identifiers
 
     /**
      * Identificador do tipo DV_BOOLEAN.

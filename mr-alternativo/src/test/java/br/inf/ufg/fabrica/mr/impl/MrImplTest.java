@@ -26,9 +26,9 @@ public class MrImplTest {
 
         int index = mr.adicionaDvBoolean(true);
 
-        assertEquals(6, index);
-        assertEquals(Mr.DV_BOOLEAN, mr.getByte(6));
-        assertEquals(true, mr.getBoolean(7));
+        assertEquals(10, index);
+        assertEquals(Mr.DV_BOOLEAN, mr.getByte(index));
+        assertEquals(true, mr.getBoolean(index + 1));
     }
 
     @Test
@@ -38,10 +38,10 @@ public class MrImplTest {
 
         int index = mr.adicionaDvState(19875, false);
 
-        assertEquals(10, index);
+        assertEquals(14, index);
         assertEquals(Mr.DV_STATE, mr.getByte(index));
-        assertEquals(19875, mr.getInt(11));
-        assertEquals(false, mr.getBoolean(15));
+        assertEquals(false, mr.getBoolean(index + 1));
+        assertEquals(19875, mr.getInt(index + 2));
     }
 
     @Test
@@ -50,7 +50,7 @@ public class MrImplTest {
 
         int index = mr.adicionaDvIdentifier("issuer", "assigner", "id", "type");
 
-        assertEquals(4, index);
+        assertEquals(8, index);
         assertEquals(Mr.DV_IDENTIFIER, mr.getType(index));
         int issuerIndex = mr.getInt(index + Mr.TYPE_SIZE);
         assertEquals(0, issuerIndex);
@@ -85,7 +85,7 @@ public class MrImplTest {
         String uri = "http://www.openehr.org/releases";
         int index = mr.adicionaDvUri(uri);
 
-        assertEquals(9, index);
+        assertEquals(13, index);
         assertEquals(Mr.DV_URI, mr.getType(index));
         int uriIndex = mr.getInt(index + Mr.TYPE_SIZE);
         assertEquals(21, uriIndex);
@@ -102,7 +102,7 @@ public class MrImplTest {
         String uri = "http://inf.ufg.br/";
         int index = mr.adicionaDvEhrUri(uri);
 
-        assertEquals(9, index);
+        assertEquals(13, index);
         assertEquals(Mr.DV_EHR_URI, mr.getType(index));
         int uriIndex = mr.getInt(index + Mr.TYPE_SIZE);
         assertEquals(25, uriIndex);
@@ -134,7 +134,7 @@ public class MrImplTest {
             5, "a", "b"
         );
 
-        assertEquals(19, index);
+        assertEquals(23, index);
         assertEquals(Mr.DV_TEXT, mr.getType(index));
         assertEquals(16, mr.getRef(index + 1));
         assertEquals(12, mr.getRef(index + 2));
@@ -156,7 +156,7 @@ public class MrImplTest {
                 18, "a", "b"
         );
 
-        assertEquals(24, index);
+        assertEquals(28, index);
         assertEquals(Mr.DV_CODED_TEXT, mr.getType(index));
         assertEquals(21, mr.getRef(index + 1));
         assertEquals(17, mr.getRef(index + 2));
@@ -200,12 +200,12 @@ public class MrImplTest {
 
         int index = mr.adicionaTerminologyId("centc251");
 
-        assertEquals(9, index);
+        assertEquals(13, index);
         assertEquals(Mr.TERMINOLOGY_ID, mr.getType(index));
         assertEquals(11, mr.getInt(index + Mr.TYPE_SIZE));
 
         int indexWithoutType = mr.adicionaTerminologyId("snomed-ct", false);
-        assertEquals(14, indexWithoutType);
+        assertEquals(18, indexWithoutType);
         assertEquals(23, mr.getInt(indexWithoutType));
     }
 }
