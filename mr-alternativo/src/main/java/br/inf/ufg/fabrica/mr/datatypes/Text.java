@@ -23,51 +23,47 @@ public interface Text {
      * sentenças e etc. Formatação visual e hiperlinks podem ser incluídos
      * - {@code DV_TEXT}.
      *
-     * @param value
-     * @param mappings           {@code TERM_MAPPING}
+     * @param hyperlink  {@code DV_URI}
+     * @param language   {@code CODE_PHRASE}
+     * @param encoding   {@code CODE_PHRASE}
+     * @param mappings   {@code TERM_MAPPING}
      * @param formatting
-     * @param hyperlink          {@code DV_URI}
-     * @param codePhraseLanguage {@code CODE_PHRASE}
-     * @param codePhraseEncoding {@code CODE_PHRASE}
+     * @param value
      * @return identificador único da exoressão de texto na extrutura.
      */
-    int adicionaDvText(
-            String value, String hyperlink, String formatting,
-            int mappings, String codePhraseLanguage, String codePhraseEncoding);
+    int adicionaDvText(int hyperlink, int language, int encoding, int mappings, String formatting, String value);
 
     /**
      * Adiciona um código
      * - {@code CODE_PHRASE}.
+     *
      * @param value
      * @return O identificador único do código na estrutura.
      */
     int adicionaCodePhrase(String value);
 
     /**
-     * @param value
-     * @param mappings           {@code TERM_MAPPING}
+     * @param hyperlink    {@code DV_URI}
+     * @param language     {@code CODE_PHRASE}
+     * @param encoding     {@code CODE_PHRASE}
+     * @param definingCode {@code CODE_PHRASE}
+     * @param mappings     {@code TERM_MAPPING}
      * @param formatting
-     * @param hyperlink          {@code DV_URI}
-     * @param codePhraseLanguage {@code CODE_PHRASE}
-     * @param codePhraseEncoding {@code CODE_PHRASE}
-     * @param definingCode
+     * @param value
      * @return identificador único da exoressão de texto na extrutura.
-     * @see #adicionaDvText(String, String, String, int, String, String)
+     * @see #adicionaDvText(int, int, int, int, String, String)
      * @see #adicionaCodePhrase(String)
      */
     int adicionaDvCodedText(
-            String value, String hyperlink, String formatting,
-            int mappings, String codePhraseLanguage, String codePhraseEncoding, int definingCode);
+            int hyperlink, int language, int encoding, int definingCode, int mappings, String formatting, String value);
 
     /**
-     * TODO: como tratar referencias e valores nulos? - ocupar o espaço nulo com bytes vazios
-     *
      * @param target  O termo alvo do mapeamento {@code CODE_PHRASE}.
      * @param match   Operador de equivalencia entre os termos.
      * @param purpose Finalidade do mapemento {@code DV_CODED_TEXT}. Ex: "automated", "data mining", "interoperability".
      * @return
      * @see #adicionaCodePhrase(String)
-     * @see #adicionaDvCodedText(String, String, String, int, String, String, int)
+     * @see #adicionaDvCodedText(int, int, int, int, int, String, String)
      */
     int adicionaTermMapping(int target, char match, int purpose);
 }

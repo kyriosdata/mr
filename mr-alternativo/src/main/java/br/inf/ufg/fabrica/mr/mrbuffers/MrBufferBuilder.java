@@ -152,6 +152,13 @@ public class MrBufferBuilder {
         return putType(x);
     }
 
+    public int addRef(int parent, int index, int position) {
+        prep(Mr.REF_SIZE, 0);
+        int ref = parent - index + position;
+        bb.writeByte(ref);
+        return ref;
+    }
+
     /**
      * Add a `boolean` to the buffer.
      *

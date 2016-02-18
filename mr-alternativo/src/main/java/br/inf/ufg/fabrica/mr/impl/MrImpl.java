@@ -5,9 +5,11 @@
 package br.inf.ufg.fabrica.mr.impl;
 
 import br.inf.ufg.fabrica.mr.Mr;
+import br.inf.ufg.fabrica.mr.Referencia;
 import br.inf.ufg.fabrica.mr.datatypes.Text;
 import br.inf.ufg.fabrica.mr.mrbuffers.MrBufferBuilder;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 
 import java.net.URI;
 import java.nio.ByteBuffer;
@@ -18,16 +20,16 @@ import java.nio.charset.Charset;
  */
 public class MrImpl implements Mr {
 
-    MrBufferBuilder bufferBuilder;
+    MrBufferBuilder bb;
     MrBufferBuilder vectorBB;
     boolean nested = false;
 
     public MrImpl(int initial_size) {
         if (initial_size <= 0) initial_size = 1;
         // objects
-        bufferBuilder = new MrBufferBuilder(initial_size);
+        bb = new MrBufferBuilder(initial_size);
         // header
-        bufferBuilder.addInt(0); // ref to list index
+        bb.addInt(0); // ref to list index
         // list
         vectorBB = new MrBufferBuilder(initial_size);
     }
@@ -49,11 +51,11 @@ public class MrImpl implements Mr {
     }
 
     private MrBufferBuilder getBuilder() {
-        return nested ? vectorBB : bufferBuilder;
+        return nested ? vectorBB : bb;
     }
 
-    public MrBufferBuilder getBufferBuilder() {
-        return bufferBuilder;
+    public MrBufferBuilder getBb() {
+        return bb;
     }
 
     public MrBufferBuilder getVectorBB() {
@@ -97,15 +99,6 @@ public class MrImpl implements Mr {
         return i;
     }
 
-    /**
-     * Adiciona um valor de estado
-     * - {@code DV_STATE}.
-     *
-     * @param value    {@code DV_CODED_TEXT}
-     * @param terminal
-     * @return
-     * @see Text#adicionaDvCodedText(String, String, String, int, String, String, int)
-     */
     public int adicionaDvState(int value, boolean terminal) {
         int id = getBuilder().addType(DV_STATE);
         getBuilder().addInt(value);
@@ -113,137 +106,61 @@ public class MrImpl implements Mr {
         return id;
     }
 
-    /**
-     * Adiciona um {@link URI} ({@code DV_URI}).
-     *
-     * @param uri Sequência de caracteres correspondentes
-     *            à {@link URI}.
-     * @return O identificador único desta URI na estrutura.
-     */
     public int adicionaDvUri(String uri) {
         int id = getBuilder().addType(DV_URI);
         getBuilder().addInt(vectorBB.createString(uri));
         return id;
     }
 
-    /**
-     * Adiciona um {@link URI} cujo esquema é
-     * "ehr" ({@code DvEHRURI}).
-     *
-     * @param uri Sequência de caracteres correspondentes
-     *            à {@link URI}.
-     * @return O identificador único desta DvEHRURI na estrutura.
-     */
     public int adicionaDvEhrUri(String uri) {
         int id = getBuilder().addType(DV_EHR_URI);
         getBuilder().addInt(vectorBB.createString(uri));
         return id;
     }
 
-    /**
-     * Adiciona uma série de textos simples para ser exibido como um parágrafo
-     * - {@code DV_PARAGRAPH }.
-     *
-     * @param itemsList A sequência de {@code DV_TEXT}s.
-     * @return O identificador único do parágrafo na estrutura.
-     */
     public int adicionaDvParagraph(int itemsList) {
         int id = getBuilder().addType(DV_PARAGRAPH);
         getBuilder().addInt(itemsList);
         return id;
     }
 
-    /**
-     * Adiciona um código
-     * - {@code CODE_PHRASE}.
-     *
-     * @param value
-     * @return O identificador único do código na estrutura.
-     */
     public int adicionaCodePhrase(String value) {
         int id = getBuilder().addType(CODE_PHRASE);
         getBuilder().addInt(vectorBB.createString(value));
         return id;
     }
 
-    /**
-     * Adiciona uma expressão de texto com qualquer quantidade de caracteres podendo formar palavras,
-     * sentenças e etc. Formatação visual e hiperlinks podem ser incluídos
-     * - {@code DV_TEXT}.
-     *
-     * @param value
-     * @param hyperlink          {@code DV_URI}
-     * @param formatting
-     * @param mappings           {@code TERM_MAPPING}
-     * @param codePhraseLanguage {@code CODE_PHRASE}
-     * @param codePhraseEncoding {@code CODE_PHRASE}
-     * @return identificador único da exoressão de texto na extrutura.
-     */
-    public int adicionaDvText(String value, String hyperlink, String formatting, int mappings, String codePhraseLanguage, String codePhraseEncoding) {
-        int hyperlinkId = adicionaDvUri(hyperlink);
-        int laguageId = adicionaCodePhrase(codePhraseLanguage);
-        int encodingId = adicionaCodePhrase(codePhraseEncoding);
+    public int adicionaDvText(int hyperlink, int language, int encoding, int mappings, String formatting, String value) {
         int id = getBuilder().addType(DV_TEXT);
+        getBuilder().addRef(id, hyperlink, 1);
+        getBuilder().addRef(id, language, 2);
+        getBuilder().addRef(id, encoding, 3);
         getBuilder().addInt(mappings);
-        getBuilder().addInt(hyperlinkId);
-        getBuilder().addInt(laguageId);
-        getBuilder().addInt(encodingId);
         getBuilder().addInt(vectorBB.createString(formatting));
         getBuilder().addInt(vectorBB.createString(value));
         return id;
     }
 
-    /**
-     * @param value
-     * @param hyperlink          {@code DV_URI}
-     * @param formatting
-     * @param mappings           {@code TERM_MAPPING}
-     * @param codePhraseLanguage {@code CODE_PHRASE}
-     * @param codePhraseEncoding {@code CODE_PHRASE}
-     * @param definingCode
-     * @return identificador único da exoressão de texto na extrutura.
-     * @see #adicionaDvText(String, String, String, int, String, String)
-     * @see #adicionaCodePhrase(String)
-     */
-    public int adicionaDvCodedText(String value, String hyperlink, String formatting, int mappings, String codePhraseLanguage, String codePhraseEncoding, int definingCode) {
-        int hyperlinkId = adicionaDvUri(hyperlink);
-        int laguageId = adicionaCodePhrase(codePhraseLanguage);
-        int encodingId = adicionaCodePhrase(codePhraseEncoding);
+    public int adicionaDvCodedText(int hyperlink, int language, int encoding, int definingCode, int mappings, String formatting, String value) {
         int id = getBuilder().addType(DV_CODED_TEXT);
+        getBuilder().addRef(id, hyperlink, 1);
+        getBuilder().addRef(id, language, 2);
+        getBuilder().addRef(id, encoding, 3);
+        getBuilder().addRef(id, definingCode, 4);
         getBuilder().addInt(mappings);
-        getBuilder().addInt(hyperlinkId);
-        getBuilder().addInt(laguageId);
-        getBuilder().addInt(encodingId);
-        getBuilder().addInt(definingCode);
         getBuilder().addInt(vectorBB.createString(formatting));
         getBuilder().addInt(vectorBB.createString(value));
         return id;
     }
 
-    /**
-     * TODO: como tratar referencias e valores nulos? - ocupar o espaço nulo com bytes vazios
-     *
-     * @param target  O termo alvo do mapeamento {@code CODE_PHRASE}.
-     * @param match   Operador de equivalencia entre os termos.
-     * @param purpose Finalidade do mapemento {@code DV_CODED_TEXT}. Ex: "automated", "data mining", "interoperability".
-     * @return
-     * @see #adicionaCodePhrase(String)
-     * @see #adicionaDvCodedText(String, String, String, int, String, String, int)
-     */
     public int adicionaTermMapping(int target, char match, int purpose) {
-        int id = addIdFromType(TERM_MAPPING, true);
-        getBuilder().addInt(target);
-        getBuilder().addInt(purpose);
+        int id = getBuilder().addType(TERM_MAPPING);
+        getBuilder().addRef(id, target, 1);
+        getBuilder().addRef(id, purpose, 2);
         getBuilder().addChar(match);
         return id;
     }
 
-    /**
-     * Adiciona um identificador de terminologia ({@code TERMINOLOGY_ID}).
-     *
-     * @param valor Identificador de terminologia.
-     * @return O identificador único do objeto criado.
-     */
     public int adicionaTerminologyId(String valor) {
         return adicionaTerminologyId(valor, true);
     }
@@ -343,10 +260,18 @@ public class MrImpl implements Mr {
      * @see #getListIndex()
      */
     public ByteBuffer toByteBuffer() {
-        ByteBuf byteBuf = bufferBuilder.dataBuffer().copy();
+        ByteBuf byteBuf = bb.dataBuffer().copy();
         byteBuf.setInt(getListIndex(), byteBuf.writerIndex());
         byteBuf.writeBytes(vectorBB.dataBuffer().duplicate());
         return byteBuf.capacity(byteBuf.nioBuffer().remaining()).nioBuffer();
+    }
+
+    public int getRef(int x) {
+        return new Referencia().getByte(getBuilder().dataBuffer().getByte(x));
+    }
+
+    public int getType(int x) {
+        return new Referencia().getByte(getBuilder().dataBuffer().getByte(x));
     }
 
     /**
@@ -356,7 +281,7 @@ public class MrImpl implements Mr {
      * @return
      */
     public byte getByte(int x) {
-        return bufferBuilder.dataBuffer().getByte(x);
+        return bb.dataBuffer().getByte(x);
     }
 
     /**
@@ -366,7 +291,7 @@ public class MrImpl implements Mr {
      * @return
      */
     public char getChar(int x) {
-        return bufferBuilder.dataBuffer().getChar(x);
+        return bb.dataBuffer().getChar(x);
     }
 
     /**
@@ -376,7 +301,7 @@ public class MrImpl implements Mr {
      * @return
      */
     public boolean getBoolean(int x) {
-        return bufferBuilder.dataBuffer().getBoolean(x);
+        return bb.dataBuffer().getBoolean(x);
     }
 
     /**
@@ -386,7 +311,7 @@ public class MrImpl implements Mr {
      * @return
      */
     public int getInt(int x) {
-        return bufferBuilder.dataBuffer().getInt(x);
+        return bb.dataBuffer().getInt(x);
     }
 
     /**
@@ -396,7 +321,7 @@ public class MrImpl implements Mr {
      * @return
      */
     public float getFloat(int x) {
-        return bufferBuilder.dataBuffer().getFloat(x);
+        return bb.dataBuffer().getFloat(x);
     }
 
     /**
@@ -406,7 +331,7 @@ public class MrImpl implements Mr {
      * @return
      */
     public double getDouble(int x) {
-        return bufferBuilder.dataBuffer().getDouble(x);
+        return bb.dataBuffer().getDouble(x);
     }
 
     /**
@@ -416,7 +341,7 @@ public class MrImpl implements Mr {
      * @return
      */
     public double getLong(int x) {
-        return bufferBuilder.dataBuffer().getLong(x);
+        return bb.dataBuffer().getLong(x);
     }
 
     /**
