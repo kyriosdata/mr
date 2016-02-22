@@ -893,6 +893,84 @@ public interface Mr extends
      */
     int MESSAGE = 156;
     
+    byte[] getHeader();
+    
+    int getRef(int x);
+
+    int getType(int x);
+
+    /**
+     * Get a byte
+     *
+     * @param x
+     * @return
+     */
+    byte getByte(int x);
+
+    /**
+     * Get a char
+     *
+     * @param x
+     * @return
+     */
+    char getChar(int x);
+
+    /**
+     * Get boolean
+     *
+     * @param x
+     * @return
+     */
+    boolean getBoolean(int x);
+
+    /**
+     * Get an int
+     *
+     * @param x
+     * @return
+     */
+    int getInt(int x);
+
+    /**
+     * Get a float
+     *
+     * @param x
+     * @return
+     */
+    float getFloat(int x);
+    
+    /**
+     * Get a double
+     *
+     * @param x
+     * @return
+     */
+    double getDouble(int x);
+    
+    /**
+     * Get a long
+     *
+     * @param x
+     * @return
+     */
+    double getLong(int x);
+    
+    /**
+     * Get a string
+     *
+     * @param x
+     * @return
+     */
+    String getString(int x);
+    
+    /**
+     * Get string length
+     *
+     * @param x
+     * @return
+     */
+    int getStringLength(int x);
+    
     
     /**
     * Retorna o tamanho, em bytes, de um campo de um objeto.

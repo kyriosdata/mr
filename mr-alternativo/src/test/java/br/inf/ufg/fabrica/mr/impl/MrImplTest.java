@@ -21,14 +21,14 @@ public class MrImplTest {
 
     @Test
     public void testAdicionaDvBoolean() throws Exception {
-        MrImpl mr = new MrImpl();
+        Mr mr = new MrImpl();
         mr.adicionaDvBoolean(true);
 
         int index = mr.adicionaDvBoolean(true);
 
-        assertEquals(10, index);
-        assertEquals(Mr.DV_BOOLEAN, mr.getByte(index));
-        assertEquals(true, mr.getBoolean(index + 1));
+        assertEquals(mr.getHeader().length + 2 * mr.BOOLEAN_SIZE, index);
+        assertEquals(mr.DV_BOOLEAN, mr.getByte(index));
+        assertEquals(true, mr.getBoolean(index));
     }
 
     @Test

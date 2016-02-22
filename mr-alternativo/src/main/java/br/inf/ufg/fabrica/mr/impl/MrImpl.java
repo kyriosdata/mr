@@ -47,6 +47,14 @@ public class MrImpl implements Mr {
     public MrBufferBuilder getBb() {
         return bb;
     }
+    
+    public byte[] getHeader(){
+        byte ret[] = new byte[2];
+        ret[0] = (byte)this.getInt(0);
+        ret[1] = (byte)this.getInt(4);
+        
+        return ret;
+    }
 
     public MrBufferBuilder getVectorBB() {
         return vectorBB;
@@ -324,7 +332,7 @@ public class MrImpl implements Mr {
      * @return
      */
     public boolean getBoolean(int x) {
-        return bb.dataBuffer().getBoolean(x);
+        return bb.dataBuffer().getBoolean(x + 1);
     }
 
     /**
