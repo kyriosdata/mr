@@ -24,6 +24,7 @@ public class MrImpl implements Mr {
     private MrBufferBuilder vectorBB;
     private boolean nested = false;
     private int rootIndex;
+    private int tamanhoCabecalho;
 
     public MrImpl(int initial_size) {
         if (initial_size <= 0) initial_size = 1;
@@ -33,6 +34,7 @@ public class MrImpl implements Mr {
         bb.addInt(0); // ref to root index
         bb.addInt(0); // ref to list index
         // list
+        this.tamanhoCabecalho = bb.offset();
         vectorBB = new MrBufferBuilder(initial_size);
     }
 
@@ -48,12 +50,8 @@ public class MrImpl implements Mr {
         return bb;
     }
     
-    public byte[] getHeader(){
-        byte ret[] = new byte[2];
-        ret[0] = (byte)this.getInt(0);
-        ret[1] = (byte)this.getInt(4);
-        
-        return ret;
+    public int obtemTamanhoCabecalho(){
+        return tamanhoCabecalho;
     }
 
     public MrBufferBuilder getVectorBB() {
@@ -98,8 +96,8 @@ public class MrImpl implements Mr {
 
     public int adicionaDvState(int value, boolean terminal) {
         int id = getBuilder().addType(DV_STATE);
-        getBuilder().addBoolean(terminal);
         getBuilder().addInt(value);
+        getBuilder().addBoolean(terminal);
         return id;
     }
 
@@ -447,8 +445,26 @@ public class MrImpl implements Mr {
     * (a) o objeto não existe;
     * (b) o campo não existe;
     */
-    public byte[] obtemBytes(int id, int campo){
-        return null;
+    public ByteBuf obtemBytes(int id, int campo){
+        ByteBuf ret = Unpooled.buffer();
+        
+        if(getByte(id) == DV_BOOLEAN){
+            ret.capacity(Mr.BOOLEAN_SIZE);
+            bb.dataBuffer().getBytes(id + Mr.TYPE_SIZE, ret, Mr.BOOLEAN_SIZE);
+        }
+        
+        if(getByte(id) == DV_STATE){
+            ret.capacity(Mr.INT_SIZE + Mr.BOOLEAN_SIZE);
+            switch(campo){
+                case 1:
+                    bb.dataBuffer().getBytes(id + Mr.TYPE_SIZE, ret, Mr.INT_SIZE);
+                case 2:
+                    bb.dataBuffer().getBytes(id + Mr.TYPE_SIZE +
+                            Mr.INT_SIZE, ret, Mr.BOOLEAN_SIZE);
+            }
+        }
+        
+        return ret;
     }
     
     /**

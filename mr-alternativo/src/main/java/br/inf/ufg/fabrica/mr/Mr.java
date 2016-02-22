@@ -4,6 +4,7 @@ import br.inf.ufg.fabrica.mr.datatypes.Basic;
 import br.inf.ufg.fabrica.mr.datatypes.Encapsulated;
 import br.inf.ufg.fabrica.mr.datatypes.Text;
 import br.inf.ufg.fabrica.mr.datatypes.Uri;
+import io.netty.buffer.ByteBuf;
 
 /**
  * Fábrica de objetos baseados no Modelo de Referência
@@ -893,7 +894,7 @@ public interface Mr extends
      */
     int MESSAGE = 156;
     
-    byte[] getHeader();
+    int obtemTamanhoCabecalho();
     
     int getRef(int x);
 
@@ -1017,7 +1018,7 @@ public interface Mr extends
     * (a) o objeto não existe;
     * (b) o campo não existe;
     */
-    byte[] obtemBytes(int id, int campo);
+    ByteBuf obtemBytes(int id, int campo);
     
     /**
     * Define a raiz do presente objeto.

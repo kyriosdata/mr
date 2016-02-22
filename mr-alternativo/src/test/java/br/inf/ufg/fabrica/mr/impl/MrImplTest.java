@@ -25,23 +25,28 @@ public class MrImplTest {
         mr.adicionaDvBoolean(true);
 
         int index = mr.adicionaDvBoolean(true);
-
-        assertEquals(mr.getHeader().length + 2 * mr.BOOLEAN_SIZE, index);
+        
+        
+        assertEquals(8, mr.obtemTamanhoCabecalho());
+        
+        assertEquals(mr.obtemTamanhoCabecalho() + mr.TYPE_SIZE + mr.BOOLEAN_SIZE, index);
         assertEquals(mr.DV_BOOLEAN, mr.getByte(index));
-        assertEquals(true, mr.getBoolean(index));
+        assertEquals(true, mr.obtemBytes(index, 1).getBoolean(0));
     }
 
     @Test
     public void testAdicionaDvState() throws Exception {
-        MrImpl mr = new MrImpl(1);
+        Mr mr = new MrImpl(1);
         mr.adicionaDvState(99999, true);
 
         int index = mr.adicionaDvState(19875, false);
 
-        assertEquals(14, index);
-        assertEquals(Mr.DV_STATE, mr.getByte(index));
-        assertEquals(false, mr.getBoolean(index + 1));
-        assertEquals(19875, mr.getInt(index + 2));
+        assertEquals(1 + mr.obtemTamanhoCabecalho() + mr.INT_SIZE 
+                + mr.BOOLEAN_SIZE, index);
+        assertEquals(mr.DV_STATE, mr.getByte(index));
+        assertEquals(19875, mr.obtemBytes(index, 1).getInt(0));
+        assertEquals(false, mr.obtemBytes(index, 2).getBoolean(0));
+
     }
 
     @Test
