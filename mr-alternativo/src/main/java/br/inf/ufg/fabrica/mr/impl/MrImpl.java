@@ -6,14 +6,13 @@ package br.inf.ufg.fabrica.mr.impl;
 
 import br.inf.ufg.fabrica.mr.Mr;
 import br.inf.ufg.fabrica.mr.Referencia;
-import br.inf.ufg.fabrica.mr.datatypes.Text;
 import br.inf.ufg.fabrica.mr.mrbuffers.MrBufferBuilder;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
-import java.net.URI;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.security.InvalidParameterException;
 
 /**
  * Implementação do modelo de referência.
@@ -323,24 +322,67 @@ public class MrImpl implements Mr {
         return bb.dataBuffer().getChar(x);
     }
 
+    int fieldPosition = 1;
+
     /**
      * Get boolean
      *
-     * @param x
+     * @param position
      * @return
      */
-    public boolean getBoolean(int x) {
-        return bb.dataBuffer().getBoolean(x + 1);
+    private boolean getBoolean(int position) {
+        return getBuilder().dataBuffer().getBoolean(position);
+    }
+
+    public boolean getBoolean(int id, int field) {
+        if (DV_BOOLEAN == getType(id)) {
+            switch (field) {
+                case 1:
+                    return getBoolean(id + TYPE_SIZE);
+                default:
+                    throw new InvalidParameterException(String.format("MrImpl.getBoolean: The field %d not exists in a DV_BOOLEAN", field));
+            }
+        } else if (DV_STATE == getType(id)) {
+            switch (field) {
+                case 2:
+                    return getBoolean(id + TYPE_SIZE + INT_SIZE);
+                default:
+                    throw new InvalidParameterException(String.format("MrImpl.getBoolean: The field %d not exists in a DV_STATE", field));
+            }
+        } else {
+            throw new InvalidParameterException("MrImpl.getBoolean: Invalid Object index");
+        }
+    }
+
+    public boolean nextBoolean(int index) {
+        return getBoolean(index, fieldPosition++);
     }
 
     /**
      * Get an int
      *
-     * @param x
+     * @param position
      * @return
      */
-    public int getInt(int x) {
-        return bb.dataBuffer().getInt(x);
+    public int getInt(int position) {
+        return getBuilder().dataBuffer().getInt(position);
+    }
+
+    public int getInt(int id, int field) {
+        if(getByte(id) == DV_STATE){
+            switch(field){
+                case 1:
+                    return obtemBytes(id, field).getInt(0);
+                default:
+                    throw new InvalidParameterException(String.format("The fieldPosition %d not exists in a DV_STATE", field));
+            }
+        } else {
+            throw new InvalidParameterException("MrImpl.getInt: Invalid Object index");
+        }
+    }
+
+    public int nextInt(int index) {
+        return getInt(index, fieldPosition++);
     }
 
     /**
@@ -382,6 +424,47 @@ public class MrImpl implements Mr {
     public String getString(int x) {
         int length = getStringLength(x);
         return vectorBB.dataBuffer().toString(x + INT_SIZE, length, Charset.forName("UTF-8"));
+    }
+
+    public String getString(int id, int field) {
+        if(getByte(id) == DV_URI){
+            switch(field){
+                case 1:
+                    return getString(getInt(id + TYPE_SIZE));
+                default:
+                    throw new InvalidParameterException(String.format("The field %d not exists in a DV_URI", field));
+            }
+        } else if(getByte(id) == DV_EHR_URI){
+            switch(field){
+                case 1:
+                    return getString(getInt(id + TYPE_SIZE));
+                default:
+                    throw new InvalidParameterException(String.format("The field %d not exists in a DV_EHR_URI", field));
+            }
+        } else if(getByte(id) == CODE_PHRASE){
+            switch(field){
+                case 1:
+                    return getString(getInt(id + TYPE_SIZE));
+                default:
+                    throw new InvalidParameterException(String.format("The field %d not exists in a CODE_PHRASE", field));
+            }
+        } else if(getByte(id) == DV_IDENTIFIER){
+            switch(field){
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                    return getString(getInt(id + TYPE_SIZE + ((field - 1) * INT_SIZE)));
+                default:
+                    throw new InvalidParameterException(String.format("The field %d not exists in a DV_IDENTIFIER", field));
+            }
+        } else {
+            throw new InvalidParameterException("MrImpl.getString: Invalid Object index");
+        }
+    }
+
+    public String nextString(int id) {
+        return null;
     }
 
     /**
@@ -458,9 +541,13 @@ public class MrImpl implements Mr {
             switch(campo){
                 case 1:
                     bb.dataBuffer().getBytes(id + Mr.TYPE_SIZE, ret, Mr.INT_SIZE);
+                    break;
                 case 2:
                     bb.dataBuffer().getBytes(id + Mr.TYPE_SIZE +
                             Mr.INT_SIZE, ret, Mr.BOOLEAN_SIZE);
+                    break;
+                default:
+                    throw new InvalidParameterException(String.format("The field %d not exists in a DV_STATE", campo));
             }
         }
         

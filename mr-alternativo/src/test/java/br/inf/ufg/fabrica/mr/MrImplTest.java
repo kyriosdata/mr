@@ -2,9 +2,9 @@
  * Copyright (c) 2015 - 2016. Instituto de Informática (UFG)
  */
 
-package br.inf.ufg.fabrica.mr.impl;
+package br.inf.ufg.fabrica.mr;
 
-import br.inf.ufg.fabrica.mr.Mr;
+import br.inf.ufg.fabrica.mr.impl.MrImpl;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -21,32 +21,23 @@ public class MrImplTest {
 
     @Test
     public void testAdicionaDvBoolean() throws Exception {
-        Mr mr = new MrImpl();
-        mr.adicionaDvBoolean(true);
+        Mr mr = new MrFactory().getMr();
 
         int index = mr.adicionaDvBoolean(true);
-        
-        
-        assertEquals(8, mr.obtemTamanhoCabecalho());
-        
-        assertEquals(mr.obtemTamanhoCabecalho() + mr.TYPE_SIZE + mr.BOOLEAN_SIZE, index);
-        assertEquals(mr.DV_BOOLEAN, mr.getByte(index));
-        assertEquals(true, mr.obtemBytes(index, 1).getBoolean(0));
+
+        assertEquals(Mr.DV_BOOLEAN, mr.getType(index));
+        assertEquals(true, mr.getBoolean(index, 1));
     }
 
     @Test
     public void testAdicionaDvState() throws Exception {
-        Mr mr = new MrImpl(1);
-        mr.adicionaDvState(99999, true);
+        Mr mr = new MrFactory().getMr();
 
         int index = mr.adicionaDvState(19875, false);
 
-        assertEquals(1 + mr.obtemTamanhoCabecalho() + mr.INT_SIZE 
-                + mr.BOOLEAN_SIZE, index);
-        assertEquals(mr.DV_STATE, mr.getByte(index));
-        assertEquals(19875, mr.obtemBytes(index, 1).getInt(0));
-        assertEquals(false, mr.obtemBytes(index, 2).getBoolean(0));
-
+        assertEquals(Mr.DV_STATE, mr.getType(index));
+        assertEquals(19875, mr.getInt(index, 1));
+        assertEquals(false, mr.getBoolean(index, 2));
     }
 
     @Test
@@ -55,72 +46,41 @@ public class MrImplTest {
 
         int index = mr.adicionaDvIdentifier("issuer", "assigner", "id", "type");
 
-        assertEquals(8, index);
         assertEquals(Mr.DV_IDENTIFIER, mr.getType(index));
-        int issuerIndex = mr.getInt(index + Mr.TYPE_SIZE);
-        assertEquals(0, issuerIndex);
-        int issuerLenght = mr.getStringLength(issuerIndex);
-        assertEquals(6, issuerLenght);
-        assertEquals("issuer", mr.getString(issuerIndex));
-
-        int assignerIndex = mr.getInt(index + Mr.TYPE_SIZE + Mr.INT_SIZE);
-        assertEquals(10, assignerIndex);
-        int assignerLenght = mr.getStringLength(assignerIndex);
-        assertEquals(8, assignerLenght);
-        assertEquals("assigner", mr.getString(assignerIndex));
-
-        int idIndex = mr.getInt(index + Mr.TYPE_SIZE + 2 * Mr.INT_SIZE);
-        assertEquals(22, idIndex);
-        int idLenght = mr.getStringLength(idIndex);
-        assertEquals(2, idLenght);
-        assertEquals("id", mr.getString(idIndex));
-
-        int typeIndex = mr.getInt(index + Mr.TYPE_SIZE + 3 * Mr.INT_SIZE);
-        assertEquals(28, typeIndex);
-        int typeLenght = mr.getStringLength(typeIndex);
-        assertEquals(4, typeLenght);
-        assertEquals("type", mr.getString(typeIndex));
+        assertEquals("issuer", mr.getString(index, 1));
+        assertEquals("assigner", mr.getString(index, 2));
+        assertEquals("id", mr.getString(index, 3));
+        assertEquals("type", mr.getString(index, 4));
     }
 
     @Test
     public void testAdicionaDvUri() throws Exception {
         MrImpl mr = new MrImpl();
-        mr.adicionaDvUri("http://www.rnp.br");
 
-        String uri = "http://www.openehr.org/releases";
-        int index = mr.adicionaDvUri(uri);
+        int index = mr.adicionaDvUri("http://www.openehr.org/releases");
 
-        assertEquals(13, index);
         assertEquals(Mr.DV_URI, mr.getType(index));
-        int uriIndex = mr.getInt(index + Mr.TYPE_SIZE);
-        assertEquals(21, uriIndex);
-        int uriLenght = mr.getStringLength(uriIndex);
-        assertEquals(31, uriLenght);
-        assertEquals("http://www.openehr.org/releases", mr.getString(uriIndex));
+        assertEquals("http://www.openehr.org/releases", mr.getString(index, 1));
     }
 
     @Test
     public void testAdicionaDvEhrUri() throws Exception {
-        MrImpl mr = new MrImpl();
-        mr.adicionaDvEhrUri("https://ufgnet.ufg.br");
+        Mr mr = new MrFactory().getMr();
 
-        String uri = "http://inf.ufg.br/";
-        int index = mr.adicionaDvEhrUri(uri);
+        int index = mr.adicionaDvEhrUri("http://inf.ufg.br/");
 
-        assertEquals(13, index);
         assertEquals(Mr.DV_EHR_URI, mr.getType(index));
-        int uriIndex = mr.getInt(index + Mr.TYPE_SIZE);
-        assertEquals(25, uriIndex);
-        int uriLenght = mr.getStringLength(uriIndex);
-        assertEquals(18, uriLenght);
-        assertEquals("http://inf.ufg.br/", mr.getString(uriIndex));
+        assertEquals("http://inf.ufg.br/", mr.getString(index, 1));
     }
 
     @Test
     public void testAdicionaCodePhrase() throws Exception {
         MrImpl mr = new MrImpl();
 
-        mr.adicionaCodePhrase("centc251::nnnnnnn");
+        int index = mr.adicionaCodePhrase("centc251::nnnnnnn");
+
+        assertEquals(Mr.CODE_PHRASE, mr.getType(index));
+        assertEquals("centc251::nnnnnnn", mr.getString(index, 1));
     }
 
     @Test

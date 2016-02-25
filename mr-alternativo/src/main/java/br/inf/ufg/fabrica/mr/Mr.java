@@ -4,6 +4,7 @@ import br.inf.ufg.fabrica.mr.datatypes.Basic;
 import br.inf.ufg.fabrica.mr.datatypes.Encapsulated;
 import br.inf.ufg.fabrica.mr.datatypes.Text;
 import br.inf.ufg.fabrica.mr.datatypes.Uri;
+import br.inf.ufg.fabrica.mr.mrbuffers.MrBufferBuilder;
 import io.netty.buffer.ByteBuf;
 
 /**
@@ -919,10 +920,13 @@ public interface Mr extends
     /**
      * Get boolean
      *
-     * @param x
+     * @param id
      * @return
      */
-    boolean getBoolean(int x);
+    boolean getBoolean(int id, int field);
+    boolean nextBoolean(int index);
+
+    public MrBufferBuilder getBb();
 
     /**
      * Get an int
@@ -930,7 +934,9 @@ public interface Mr extends
      * @param x
      * @return
      */
-    int getInt(int x);
+    int getInt(int id);
+    int getInt(int id, int field);
+    int nextInt(int id);
 
     /**
      * Get a float
@@ -963,6 +969,8 @@ public interface Mr extends
      * @return
      */
     String getString(int x);
+    String getString(int id, int field);
+    String nextString(int id);
     
     /**
      * Get string length
