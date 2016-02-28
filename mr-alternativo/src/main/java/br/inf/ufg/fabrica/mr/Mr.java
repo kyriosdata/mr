@@ -4,6 +4,7 @@ import br.inf.ufg.fabrica.mr.datatypes.Basic;
 import br.inf.ufg.fabrica.mr.datatypes.Encapsulated;
 import br.inf.ufg.fabrica.mr.datatypes.Text;
 import br.inf.ufg.fabrica.mr.datatypes.Uri;
+import br.inf.ufg.fabrica.mr.mrbuffers.BufferBuilder;
 import br.inf.ufg.fabrica.mr.mrbuffers.MrBufferBuilder;
 import io.netty.buffer.ByteBuf;
 
@@ -894,84 +895,98 @@ public interface Mr extends
      * Identificador do tipo MESSAGE.
      */
     int MESSAGE = 156;
-    
+
+    void startVector(int numElems);
+    int endVector(int[] ofsset);
     int obtemTamanhoCabecalho();
     
-    int getRef(int x);
+    int getRef(int id, int field);
 
     int getType(int x);
 
     /**
      * Get a byte
      *
-     * @param x
+     * @param id
+     * @param field
      * @return
      */
-    byte getByte(int x);
+    byte getByte(int id, int field);
 
     /**
      * Get a char
      *
-     * @param x
+     * @param id
+     * @param field
      * @return
      */
-    char getChar(int x);
+    char getChar(int id, int field);
 
     /**
      * Get boolean
      *
      * @param id
+     * @param field
      * @return
      */
     boolean getBoolean(int id, int field);
     boolean nextBoolean(int index);
 
-    public MrBufferBuilder getBb();
-
     /**
      * Get an int
      *
-     * @param x
+     * @param id
+     * @param field
      * @return
      */
-    int getInt(int id);
     int getInt(int id, int field);
     int nextInt(int id);
 
     /**
      * Get a float
      *
-     * @param x
+     * @param id
+     * @param field
      * @return
      */
-    float getFloat(int x);
+    float getFloat(int id, int field);
     
     /**
      * Get a double
      *
-     * @param x
+     * @param id
+     * @param field
      * @return
      */
-    double getDouble(int x);
+    double getDouble(int id, int field);
     
     /**
      * Get a long
      *
-     * @param x
-     * @return
+     * @param id
+     * @param field
      */
-    double getLong(int x);
+    double getLong(int id, int field);
     
     /**
      * Get a string
      *
-     * @param x
+     * @param id
+     * @param field
      * @return
      */
-    String getString(int x);
+//    String getString(int x);
     String getString(int id, int field);
     String nextString(int id);
-    
+
+    /**
+     * Get a list
+     * @param id
+     * @param field
+     * @return
+     */
+    int getList(int id, int field);
+
     /**
      * Get string length
      *

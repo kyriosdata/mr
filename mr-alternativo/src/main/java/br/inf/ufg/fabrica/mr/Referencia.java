@@ -19,7 +19,7 @@ public class Referencia {
      * Obtém a quantidade de bytes necessária para
      * armazenar o valor.
      *
-     * @param endereco Valor a ser armazenado.
+     * @param inteiro Valor a ser armazenado.
      * @return Quantidade de bytes, de 1 a 4,
      * inclusive, para armazenar o valor fornecido.
      * <p/>
@@ -78,7 +78,7 @@ public class Referencia {
      * o byte varia de -127 a 127, portanto é preciso
      * convertê-lo para int para pegar o valor sem sinal
      */
-    public int getByte(byte b) {
+    public static int getByte(byte b) {
         return b & 0xFF;
     }
     
