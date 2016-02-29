@@ -4,8 +4,6 @@ import br.inf.ufg.fabrica.mr.datatypes.Basic;
 import br.inf.ufg.fabrica.mr.datatypes.Encapsulated;
 import br.inf.ufg.fabrica.mr.datatypes.Text;
 import br.inf.ufg.fabrica.mr.datatypes.Uri;
-import br.inf.ufg.fabrica.mr.mrbuffers.BufferBuilder;
-import br.inf.ufg.fabrica.mr.mrbuffers.MrBufferBuilder;
 import io.netty.buffer.ByteBuf;
 
 /**
@@ -1056,7 +1054,7 @@ public interface Mr extends
     *
     * @see #obtemRaiz()
     *
-    * @param O identificador único da raiz.
+    * @param raiz Identificador único da raiz.
     *
     * @throws IllegalArgumentException O objeto raiz não existe.
     */

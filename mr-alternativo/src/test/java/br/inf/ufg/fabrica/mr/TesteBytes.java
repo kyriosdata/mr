@@ -31,10 +31,10 @@ public class TesteBytes {
      * O byte passado por parâmetro contém 2 bits
      * referentes ao tamanho do inteiro que o segue
      * e 6 bits pertencentes ao próprio inteiro.
-     * Por ex., caso a função retorne 1, nenhum  
+     * Por ex., caso a função retorne 1, nenhum
      * outro byte precisa ser lido além do primeiro.
      */
-    public static int tamanhoInt(byte b){
+    public static int tamanhoInt(byte b) {
         return (b >>> 6) + 1;
     }
 
@@ -125,10 +125,10 @@ public class TesteBytes {
         }
         return 0;
     }
-    
+
 
     //TODO: integrar int e long em metodo unico
-    
+
     /**
      * O long é convertido para um array de byte
      * com o menor tamanho possivel.
@@ -137,7 +137,7 @@ public class TesteBytes {
      * 1 byte. Os dois primeiros bits são setados
      * conforme o tamanho do array: 000 indica que é utilizado
      * apenas 1 byte; 001 para 2 byte; 010 para 3 bytes;
-     * 011 para 4 bytes; 100 para 5 bytes; 101 para 6 bytes; 
+     * 011 para 4 bytes; 100 para 5 bytes; 101 para 6 bytes;
      * 110 para 7 bytes; 111 para 8 bytes.
      */
     public static byte[] longToByteArray(long value) {
@@ -170,56 +170,56 @@ public class TesteBytes {
 
         if (value < Math.pow(2, 29)) {
             return new byte[]{
-                (byte) ((value >>> 24) | (3 << 5)),
-                (byte) (value >>> 16),
-                (byte) (value >>> 8),
-                (byte) value
+                    (byte) ((value >>> 24) | (3 << 5)),
+                    (byte) (value >>> 16),
+                    (byte) (value >>> 8),
+                    (byte) value
             };
         }
-        
+
         if (value < Math.pow(2, 37)) {
             return new byte[]{
-                (byte) ((value >>> 32) | (4 << 5)),
-                (byte) (value >>> 24),
-                (byte) (value >>> 16),
-                (byte) (value >>> 8),
-                (byte) value
+                    (byte) ((value >>> 32) | (4 << 5)),
+                    (byte) (value >>> 24),
+                    (byte) (value >>> 16),
+                    (byte) (value >>> 8),
+                    (byte) value
             };
         }
 
         if (value < Math.pow(2, 45)) {
             return new byte[]{
-                (byte) ((value >>> 40) | (5 << 5)),
-                (byte) (value >>> 32),
-                (byte) (value >>> 24),
-                (byte) (value >>> 16),
-                (byte) (value >>> 8),
-                (byte) value
+                    (byte) ((value >>> 40) | (5 << 5)),
+                    (byte) (value >>> 32),
+                    (byte) (value >>> 24),
+                    (byte) (value >>> 16),
+                    (byte) (value >>> 8),
+                    (byte) value
             };
 
         }
 
         if (value < Math.pow(2, 53)) {
             return new byte[]{
-                (byte) ((value >>> 48) | (6 << 5)),
+                    (byte) ((value >>> 48) | (6 << 5)),
+                    (byte) (value >>> 40),
+                    (byte) (value >>> 32),
+                    (byte) (value >>> 24),
+                    (byte) (value >>> 16),
+                    (byte) (value >>> 8),
+                    (byte) value
+            };
+        }
+
+        return new byte[]{
+                (byte) ((value >>> 56) | (7 << 5)),
+                (byte) (value >>> 48),
                 (byte) (value >>> 40),
                 (byte) (value >>> 32),
                 (byte) (value >>> 24),
                 (byte) (value >>> 16),
                 (byte) (value >>> 8),
                 (byte) value
-            };
-        }
-
-        return new byte[]{
-            (byte) ((value >>> 56) | (7 << 5)),
-            (byte) (value >>> 48),
-            (byte) (value >>> 40),
-            (byte) (value >>> 32),
-            (byte) (value >>> 24),
-            (byte) (value >>> 16),
-            (byte) (value >>> 8),
-            (byte) value
         };
     }
 
@@ -243,11 +243,11 @@ public class TesteBytes {
      * ao restante, conforme o tamanho descoberto.
      */
     public static long nextLong(ByteArrayInputStream buf) {
-        byte b = (byte)buf.read();
+        byte b = (byte) buf.read();
         //System.out.println("b "+getByte(b));
-        int i = getByte((byte)(b & 0xE0));
-        byte ini = (byte)(b & 0x1F);
-        
+        int i = getByte((byte) (b & 0xE0));
+        byte ini = (byte) (b & 0x1F);
+
         switch (i) {
             case 0:
                 return ini;
@@ -283,7 +283,7 @@ public class TesteBytes {
                         (byte) buf.read(), (byte) buf.read(),
                         (byte) buf.read(), (byte) buf.read()};
                 return byteArrayToLong(temp7);
-            
+
         }
         return 0;
     }
@@ -320,12 +320,8 @@ public class TesteBytes {
                 + getByte(x4[1]) + " " + getByte(x4[2]) + " " + getByte(x4[3]));
         ByteArrayInputStream buf4 = new ByteArrayInputStream(x4);
         System.out.println("Inteiro lido: " + nextInt(buf4));
-        
-        
-        
-        
-        
-        
+
+
         //LONG
         long c = 64L;
         byte[] x6 = longToByteArray(c);
@@ -340,34 +336,34 @@ public class TesteBytes {
         ByteArrayInputStream buf7 = new ByteArrayInputStream(x7);
         System.out.println("Long lido: " + nextLong(buf7));
 
-        c = 1048576L; 
+        c = 1048576L;
         byte[] x8 = longToByteArray(c);
         System.out.println("\n" + c + ", tamanho " + x8.length + ", bytes = " + getByte(x8[0]) + " "
                 + getByte(x8[1]) + " " + getByte(x8[2]));
         ByteArrayInputStream buf8 = new ByteArrayInputStream(x8);
         System.out.println("Long lido: " + nextLong(buf8));
 
-        c =  4194304L;
+        c = 4194304L;
         byte[] x9 = longToByteArray(c);
         System.out.println("\n" + c + ", tamanho " + x9.length + ", bytes = " + getByte(x9[0]) + " "
                 + getByte(x9[1]) + " " + getByte(x9[2]) + " " + getByte(x9[3]));
         ByteArrayInputStream buf9 = new ByteArrayInputStream(x9);
         System.out.println("Long lido: " + nextLong(buf9));
-        
+
         c = 1073741824L; ////1000 0000    0100 0000    0000 0000    0000 0000    0000 0000
         byte[] x10 = longToByteArray(c);
         System.out.println("\n" + c + ", tamanho " + x10.length + ", bytes = " + getByte(x10[0]) + " "
-                + getByte(x10[1]) + " " + getByte(x10[2]) + " " + getByte(x10[3])+ " " + getByte(x10[4]));
+                + getByte(x10[1]) + " " + getByte(x10[2]) + " " + getByte(x10[3]) + " " + getByte(x10[4]));
         ByteArrayInputStream buf10 = new ByteArrayInputStream(x10);
         System.out.println("Long lido: " + nextLong(buf10));
-        
-        c = 274877906944L; 
+
+        c = 274877906944L;
         byte[] x11 = longToByteArray(c);
         System.out.println("\n" + c + ", tamanho " + x11.length + ", bytes = " + getByte(x11[0]) + " "
                 + getByte(x10[1]) + " " + getByte(x10[2]) + " " + getByte(x10[3]));
         ByteArrayInputStream buf11 = new ByteArrayInputStream(x11);
         System.out.println("Long lido: " + nextLong(buf11));
-        
+
         c = (long) Math.pow(2, 46);
         byte[] x12 = longToByteArray(c);
         System.out.println("\n" + c + ", tamanho " + x12.length + ", bytes = " + getByte(x12[0]) + " "
@@ -381,7 +377,7 @@ public class TesteBytes {
                 + getByte(x9[1]) + " " + getByte(x9[2]) + " " + getByte(x9[3]));
         ByteArrayInputStream buf13 = new ByteArrayInputStream(x13);
         System.out.println("Long lido: " + nextLong(buf13));
-        
+
         c = (long) Math.pow(2, 60);
         byte[] x14 = longToByteArray(c);
         System.out.println("\n" + c + ", tamanho " + x14.length + ", bytes = " + getByte(x10[0]) + " "
@@ -410,11 +406,11 @@ public class TesteBytes {
 
         ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
         System.out.print("\nLeitura de buffer unico: ");
-        for (int k = 0 ; k < 4; k++){
-            System.out.print(nextInt(in)+" -- ");
+        for (int k = 0; k < 4; k++) {
+            System.out.print(nextInt(in) + " -- ");
         }
-        for (int k = 0 ; k < 9; k++){
-            System.out.print(nextLong(in)+" -- ");
+        for (int k = 0; k < 9; k++) {
+            System.out.print(nextLong(in) + " -- ");
         }
         System.out.println();
 
