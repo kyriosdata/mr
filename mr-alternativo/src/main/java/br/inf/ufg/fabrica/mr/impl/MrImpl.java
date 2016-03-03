@@ -27,7 +27,7 @@ public class MrImpl implements Mr {
     private int rootIndex;
     private int tamanhoCabecalho;
 
-    public MrImpl(int initial_size) {
+    private MrImpl(int initial_size) {
         if (initial_size <= 0) initial_size = 1;
         // objects
         bb = new MrBufferBuilder(initial_size);
@@ -39,8 +39,12 @@ public class MrImpl implements Mr {
         vectorBB = new MrBufferBuilder(initial_size);
     }
 
-    public MrImpl() {
+    private MrImpl() {
         this(1);
+    }
+
+    public static Mr getInstance() {
+        return new MrImpl();
     }
 
     private MrBufferBuilder getBuilder() {

@@ -9,6 +9,6 @@ import br.inf.ufg.fabrica.mr.impl.MrImpl;
 public class MrFactory {
 
     public Mr getMr() {
-        return new MrImpl();
+        return MrImpl.getInstance();
     }
 }

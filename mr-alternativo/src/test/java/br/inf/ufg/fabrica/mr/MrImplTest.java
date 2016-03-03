@@ -4,7 +4,6 @@
 
 package br.inf.ufg.fabrica.mr;
 
-import br.inf.ufg.fabrica.mr.impl.MrImpl;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -153,8 +152,6 @@ public class MrImplTest {
 
     @Test
     public void testAdicionaTerminologyId() throws Exception {
-        MrImpl mr = new MrImpl();
-
         int index = mr.adicionaTerminologyId("centc251");
 
         assertEquals(Mr.TERMINOLOGY_ID, mr.getType(index));

@@ -580,7 +580,7 @@ public interface Mr extends
     int ISM_TRANSITION = 92;
 
     /**
-     * Identificador do tipo PATHABLE.
+     * Identificador do tipo PATHABLE.adicionaTerminologyId
      */
     int PATHABLE = 93;
 
@@ -893,6 +893,9 @@ public interface Mr extends
      * Identificador do tipo MESSAGE.
      */
     int MESSAGE = 156;
+
+    // TODO: função deve ser definida na interface que pretence.
+    public int adicionaTerminologyId(String valor);
 
     void startVector(int numElems);
     int endVector(int[] ofsset);
