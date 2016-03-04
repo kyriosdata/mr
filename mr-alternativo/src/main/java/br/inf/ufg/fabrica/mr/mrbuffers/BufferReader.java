@@ -45,7 +45,7 @@ public abstract class BufferReader {
 
     public abstract String getString(int id, int field);
 //    String nextString(int id);
-public abstract int getStringLength(int x);
+    public abstract int getStringLength(int x);
 
     public abstract int getVector(int id, int field);
 }

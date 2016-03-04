@@ -26,6 +26,7 @@ public class MrImpl implements Mr {
     private boolean nested = false;
     private int rootIndex;
     private int tamanhoCabecalho;
+    private int numElements;
 
     private MrImpl(int initial_size) {
         if (initial_size <= 0) initial_size = 1;
@@ -59,15 +60,16 @@ public class MrImpl implements Mr {
         return tamanhoCabecalho;
     }
 
-    int numElements;
-    public void startVector(int numElems) {
-        nested = true;
-        numElements = numElems;
+    public void startVector(int numElements) {
+        this.nested = true;
+        this.numElements = numElements;
     }
 
-    public int endVector(int[] ofsset) {
+    public int endVector(int[] elements) {
+        if (elements.length != numElements) throw new InvalidParameterException(String.format("Invalid quantity of elements, it is expected %s element(s)", numElements));
+
         int id = getBuilder().addInt(numElements);
-        for (int i: ofsset) {
+        for (int i: elements) {
             getBuilder().addInt(i);
         }
         nested = false;

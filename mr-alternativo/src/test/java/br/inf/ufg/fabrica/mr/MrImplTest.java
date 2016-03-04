@@ -4,14 +4,22 @@
 
 package br.inf.ufg.fabrica.mr;
 
+import br.inf.ufg.fabrica.mr.impl.MrTestUtil;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
+import java.security.InvalidParameterException;
 
 import static org.junit.Assert.*;
 
-public class MrImplTest {
+public class MrImplTest extends MrTestUtil {
 
     private Mr mr;
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Before
     public void setUp() throws Exception {
@@ -24,7 +32,6 @@ public class MrImplTest {
 
         assertEquals(Mr.DV_BOOLEAN, mr.getType(index));
         assertTrue(mr.getBoolean(index, 1));
-        assertNotEquals(false, mr.getBoolean(index, 1));
     }
 
     @Test
@@ -34,7 +41,6 @@ public class MrImplTest {
         assertEquals(Mr.DV_STATE, mr.getType(index));
         assertEquals(19875, mr.getInt(index, 1));
         assertFalse(mr.getBoolean(index, 2));
-        assertNotEquals(true, mr.getBoolean(index, 2));
     }
 
     @Test
@@ -83,7 +89,7 @@ public class MrImplTest {
                 mr.adicionaDvUri("http://google.com"),
                 mr.adicionaCodePhrase("centc251::nnnnnnn"),
                 mr.adicionaCodePhrase("centc252::nnnnnnn"),
-                createListTermMapping(mr, 16),
+                createListTermMapping(mr, 4),
                 "a", "Neosaldina"
         );
 
@@ -91,18 +97,8 @@ public class MrImplTest {
         assertEquals("http://google.com", mr.getString(mr.getRef(index, 1), 1));
         assertEquals("centc251::nnnnnnn", mr.getString(mr.getRef(index, 2), 1));
         assertEquals("centc252::nnnnnnn", mr.getString(mr.getRef(index, 3), 1));
-        assertEquals(16, mr.obtemTamanhoLista(mr.getList(index, 4)));
         assertEquals("a", mr.getString(index, 5));
         assertEquals("Neosaldina", mr.getString(index, 6));
-    }
-
-    private int createListTermMapping(Mr mr, int count) {
-        int[] offset = new int[count];
-        mr.startVector(offset.length);
-        for (int i = 0; i < offset.length; i++) {
-            offset[i] = mr.adicionaTermMapping(mr.adicionaCodePhrase("centc251::nnnnnnn"), '>', createDvCodedText(mr));
-        }
-        return mr.endVector(offset);
     }
 
     @Test
@@ -121,7 +117,6 @@ public class MrImplTest {
         assertEquals("centc251::nnnnnnn", mr.getString(mr.getRef(index, 2), 1));
         assertEquals("centc252::nnnnnnn", mr.getString(mr.getRef(index, 3), 1));
         assertEquals("centc253::nnnnnnn", mr.getString(mr.getRef(index, 4), 1));
-        assertEquals(13, mr.obtemTamanhoLista(mr.getList(index, 5)));
         assertEquals("a", mr.getString(index, 6));
         assertEquals("b", mr.getString(index, 7));
     }
@@ -140,21 +135,42 @@ public class MrImplTest {
         assertEquals('>', mr.getChar(index, 3));
     }
 
-    private int createDvCodedText(Mr mr) {
-        return mr.adicionaDvCodedText(
-                mr.adicionaDvUri("http://google.com.br"),
-                mr.adicionaCodePhrase("centc251::nnnnnnn"),
-                mr.adicionaCodePhrase("centc252::nnnnnnn"),
-                mr.adicionaCodePhrase("centc253::nnnnnnn"),
-                18, "a", "b"
-        );
-    }
-
     @Test
     public void testAdicionaTerminologyId() throws Exception {
         int index = mr.adicionaTerminologyId("centc251");
 
         assertEquals(Mr.TERMINOLOGY_ID, mr.getType(index));
         assertEquals("centc251", mr.getString(index, 1));
+    }
+
+    @Test
+    public void testObtemTamanhoLista() {
+        int[] elements = new int[4];
+
+        mr.startVector(elements.length);
+
+        elements[0] = mr.adicionaDvBoolean(true);
+        elements[1] = mr.adicionaDvBoolean(false);
+        elements[2] = mr.adicionaDvBoolean(false);
+        elements[3] = mr.adicionaDvBoolean(true);
+
+        int index = mr.endVector(elements);
+
+        assertEquals(4, mr.obtemTamanhoLista(index));
+    }
+
+    @Test
+    public void testEndVectorException() {
+        int[] elements = new int[2];
+
+        mr.startVector(15);
+
+        elements[0] = mr.adicionaDvBoolean(true);
+        elements[1] = mr.adicionaDvBoolean(true);
+
+        thrown.expect(InvalidParameterException.class);
+        thrown.expectMessage("Invalid quantity of elements, it is expected 15 element(s)");
+
+        int index = mr.endVector(elements);
     }
 }
