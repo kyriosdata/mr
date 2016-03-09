@@ -67,15 +67,130 @@ package br.inf.ufg.fabrica.mr;
  */
 public interface ModeloDeReferencia extends Serializacao, Campo, Identification {
 
-    /**
-     * Identificador do tipo DV_BOOLEAN.
-     */
-    final int DV_BOOLEAN = 0;
 
-    /**
-     * Identificador do tipo DV_IDENTIFIER.
-     */
+    final int RMO_OBJECT = 26;
+    final int DATA_VALUE = 27;
+    final int DV_INTERVAL = 28;
+    final int DV_STATE = 29;
+    final int TERM_MAPPING =30;
     final int DV_IDENTIFIER = 1;
+    final int REFERENCE_RANGE = 31;
+    final int DV_TIME_ESPECIFICATION = 32;
+    final int DV_PERIODIC_TIME_SPECIFICATION = 23;
+    final int DV_GENERAL_TIME_SPECIFICATION = 24;
+    final int CODE_PHRASE = 25;
+    final int DV_ENCAPSULATED = 20;
+    final int DV_PARSABLE = 21;
+    final int DV_MULTIMEDIA = 22;
+    final int DV_PARAGRAPH = 19;
+    final int DV_BOOLEAN = 33;
+    final int DV_URI = 18;
+    final int DV_EHR_URI = 15;
+    final int DV_TEXT = 17;
+    final int DV_CODED_TEXT = 14;
+    final int DV_ORDERED = 16;
+    final int DV_ORDINAL = 7;
+    final int DV_QUANTIFIED = 6;
+    final int DV_ABSOLUTE_QUANTITY = 5;
+    final int DV_TEMPORAL = 4;
+    final int DV_DATE = 2;
+    final int DV_DATE_TIME = 3;
+    final int DV_TIME = 13;
+    final int DV_AMOUNT = 8;
+    final int DV_DURATION = 9;
+    final int DV_QUANTITY = 10;
+    final int DV_PROPORTION = 11;
+    final int DV_COUNT = 12;
+    final int FEEDER_AUDIT_DETAILS = 34;
+    final int CONTRIBUTION = 35;
+    final int INSTRUCTION_DETAILS = 36;
+    final int EVENT_CONTEXT = 37;
+    final int VERSIONED_OBJECT = 38;
+    final int VERSIONED_PARTY = 39;
+    final int VERSIONED_FOLDER = 40;
+    final int VERSIONED_COMPOSITION = 41;
+    final int VERSIONED_EHR_STATUS = 42;
+    final int VERSIONED_EHR_ACCESS = 43;
+    final int PARTICIPATION = 44;
+    final int ARCHETYPED = 45;
+    final int MESSAGE = 46;
+    final int INITIATOR = 47;
+    
+    final int AUTHORED_RESOURCE = 100;
+    final int REVISION_HISTORY_ITEM = 101;
+    final int REVISION_HISTORY = 102;
+    final int AUDITY_DETAILS = 103;
+    final int ATTESTATION = 104;
+    final int TEMPLATE_ID = 105;
+    final int TERMINOLOGY_ID = 106;
+    final int LINK = 107;
+    final int GENERIC_ID = 108;
+    final int OBJECT_ID = 109;
+    final int ARCHETYPE_ID = 110;
+    final int UID_BASED_ID = 111;
+    final int HIER_OBJECT_ID = 112;
+    final int OBJECT_VERSION_ID = 113;
+    final int ISM_TRANSITION = 114;
+    final int OBJECT_REF = 115;
+    final int ACCESS_GROUP_REF = 116;
+    final int PARTY_REF = 117;
+    final int LOCATABLE_REF = 118;
+    final int TRANSLATIONDETAILS = 119;
+    final int VERSION = 120;
+    final int ORIGINALVERSION = 121;
+    final int IMPORTED_VERSION = 122;
+    final int PATHABLE = 123;
+    final int LOCATABLE = 124;
+    final int DATA_STRUCTURE = 125;
+    final int HISTORY = 126;
+    final int ITEM_STRUCTURE = 127;
+    final int ITEM_TREE = 128;
+    final int ITEM_LIST = 129;
+    final int ITEM_TABLE = 130;
+    final int ITEM_SINGLE = 131;
+    final int ITEM = 132;
+    final int ELEMENT = 133;
+    final int CLUSTER = 134;
+    final int FOLDER = 135;
+    final int PARTY_RELATIONSHIP = 136;
+    final int XFOLDER = 137;
+    final int COMPOSITION = 138;
+    final int ADDRESS = 139;
+    final int PARTY = 140;
+    final int ROLE = 141;
+    final int ACTOR = 142;
+    final int AGENT = 143;
+    final int PERSON = 144;
+    final int GROUP = 145;
+    final int ORGANISATION = 146;
+    final int EHR_STATUS = 147;
+    final int ACTIVITY = 148;
+    final int EVENT = 149;
+    final int INTERVAL_EVENT = 150;
+    final int POINT_EVENT = 151;
+    final int MESSAGE_CONTENT = 152;
+    final int EHR_ACCESS = 153;
+    final int PARTY_IDENTITY = 154;
+    final int CONTENT_ITEM = 155;
+    final int ENTRY = 156;
+    final int ADMIN_ENTRY = 157;
+    final int CARE_ENTRY = 158;
+    final int OBSERVATION = 159;
+    final int INSTRUCTION = 160;
+    final int ACTION = 161;
+    final int EVALUTATION = 162;
+    final int SECTION = 163;
+    final int GENERIC_ENTRY = 164;
+    final int CAPABILITY = 165;
+    final int CONTACT = 166;
+    final int PARTY_IDENTIFIED = 167;
+    final int PARTY_RELATED = 168;
+    final int PART_PROXY = 169;
+    final int PARTY_SELF = 170;
+    final int RESOURCE_DESCRIPTION_ITEM = 171;
+    final int FEEDER_AUDIT = 172;
+    final int EHR = 173;
+    final int VERSION_TREE_ID = 174;
 
     // TODO acrescente uma constante para todos os demais tipos
 
