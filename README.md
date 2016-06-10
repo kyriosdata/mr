@@ -22,4 +22,4 @@ MR.
 
 Tarefas
 =======
-- Verificar desempenho com Realm (realm.io) 
+- Verificar desempenho com Realm (http://realm.io) 
