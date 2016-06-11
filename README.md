@@ -23,3 +23,4 @@ MR.
 Tarefas
 =======
 - Verificar desempenho com Realm (http://realm.io) 
+- Gerenciar memória (https://grizzly.java.net/memory.html)
