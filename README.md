@@ -29,5 +29,4 @@ Tarefas
 - https://en.wikipedia.org/wiki/BSON
 - http://ubjson.org/
 - http://source.wiredtiger.com/2.8.0/index.html 
-- https://en.wikipedia.org/wiki/Comparison_of_data_serialization_formats
-- 
+- https://en.wikipedia.org/wiki/Comparison\_of\_data\_serialization\_formats
