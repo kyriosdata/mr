@@ -6,18 +6,15 @@ package br.inf.ufg.fabrica.mr;
 
 import org.junit.Test;
 
-import static junit.framework.Assert.assertEquals;
+import java.io.ByteArrayInputStream;
 
 public class ReferenciaTest {
 
     @Test
     public void testTotalBytes() throws Exception {
-        assertEquals(1, Referencia.totalBytes(0));
-        assertEquals(1, Referencia.totalBytes(63));
-        assertEquals(2, Referencia.totalBytes(64));
-        assertEquals(2, Referencia.totalBytes(16383));
-        assertEquals(3, Referencia.totalBytes(16384));
-        assertEquals(3, Referencia.totalBytes(4194303));
-        assertEquals(4, Referencia.totalBytes(4194304));
+        Referencia referencia = new Referencia();
+        byte[] a = Referencia.intToByteArray(12801223);
+        int i = referencia.nextInt(new ByteArrayInputStream(a));
+        System.out.println("Int = " + i);
     }
 }

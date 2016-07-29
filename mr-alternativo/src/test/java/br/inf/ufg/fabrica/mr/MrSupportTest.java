@@ -6,19 +6,19 @@ package br.inf.ufg.fabrica.mr;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Valida decisões de tipos em Java empregados pela
  * implementação do Modelo de Referência. Os tipos
  * estão definidos em Support Information Model.
- *
+ * <p/>
  * <p>Os tipos {@code char}, {@code boolean}, {@code int},
  * {@code float} e {@code double}, são respectivamente as
  * implementações de Character, Boolean, Integer, Real e
  * Double.
  * </p>
- *
+ * <p/>
  * <p>Ao contrário dos tipos primeitivos acima, o tipo Octet
  * exige atenção especial. Isto porque em Java o tipo byte é
  * com sinal. Embora contenha exatamente 8 bits, armazenar um
@@ -27,16 +27,7 @@ import static org.junit.Assert.*;
  * pode ser um byte, mas a recuperação exige o método
  * {@code #obtenhaByte}, documentado abaixo.</p>
  */
-public class ModeloDeReferenciaSupportTest {
-
-    @Test
-    public void armazeneByte() {
-        byte b = 0;
-        for (int i = 0; i < 256; i++) {
-            b = (byte)i;
-            assertEquals(i, obtenhaByte(b));
-        }
-    }
+public class MrSupportTest {
 
     /**
      * Obtém valor inteiro correspondente a um
@@ -48,6 +39,15 @@ public class ModeloDeReferenciaSupportTest {
      */
     public static int obtenhaByte(byte entrada) {
         return entrada & 0xFF;
+    }
+
+    @Test
+    public void armazeneByte() {
+        byte b = 0;
+        for (int i = 0; i < 256; i++) {
+            b = (byte) i;
+            assertEquals(i, obtenhaByte(b));
+        }
     }
 
 }

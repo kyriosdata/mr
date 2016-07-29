@@ -5,7 +5,7 @@
 /**
  * Implementação alternativa do Modelo de Referência do
  * openEHR.
- *
+ * <p>
  * <p>A presente implementação baseia-se no uso parcimonioso de
  * memória e está dirigida a dispositivos com parcos recursos
  * computacionais, em particular, memória.</p>
