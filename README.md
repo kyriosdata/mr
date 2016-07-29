@@ -25,3 +25,9 @@ Tarefas
 - Verificar desempenho com Realm (http://realm.io) 
 - Gerenciar memória (https://grizzly.java.net/memory.html)
 - Buffers (http://stackoverflow.com/questions/28511541/libuv-allocated-memory-buffers-re-use-techniques)
+- https://www.infoq.com/news/2016/07/apple-lzfse-lossless-opensource 
+- https://en.wikipedia.org/wiki/BSON
+- http://ubjson.org/
+- http://source.wiredtiger.com/2.8.0/index.html 
+- https://en.wikipedia.org/wiki/Comparison_of_data_serialization_formats
+- 
