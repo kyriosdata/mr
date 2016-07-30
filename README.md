@@ -30,3 +30,4 @@ Tarefas
 - http://ubjson.org/
 - http://source.wiredtiger.com/2.8.0/index.html 
 - Data Serialization formats (https://en.wikipedia.org/wiki/Comparison_of_data_serialization_formats)
+- Compressão usando lz4 (https://cyan4973.github.io/lz4/). Aparentemente ainda não há lzfse para Java.
