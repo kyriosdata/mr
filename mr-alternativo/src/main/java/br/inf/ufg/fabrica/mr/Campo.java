@@ -49,6 +49,8 @@ public interface Campo {
     /**
      * Recupera a String do campo do objeto.
      *
+     *
+     * @param tipo O tipo do objeto.
      * @param id O identificador único do objeto.
      * @param campo A ordem do campo, iniciada por 0, para o
      *              campo cujo valor é uma String.
@@ -63,7 +65,7 @@ public interface Campo {
      * @see #obtemTexto(int, int)
      * @see #obtemVetorBytes(int, int)
      */
-    String obtemString(int id, int campo);
+    String obtemString(int tipo, int id, int campo);
 
     /**
      * Recupera o valor lógico do objeto.
@@ -106,7 +108,7 @@ public interface Campo {
      *
      * @see #obtemTipo(int, int)
      * @see #obtemTexto(int, int)
-     * @see #obtemInteiro(int, int)
+     * @see #obtemInteiro(int, int, int)
      * @see #obtemVetorBytes(int, int)
      */
     int obtemChave(int id, int campo);
@@ -114,6 +116,8 @@ public interface Campo {
     /**
      * Recupera inteiro.
      *
+     *
+     * @param tipo
      * @param id O identificador único do objeto.
      * @param campo A ordem do campo, iniciada por 0, para o
      *              campo cujo valor inteiro é desejado.
@@ -128,7 +132,7 @@ public interface Campo {
      * @see #obtemTexto(int, int)
      * @see #obtemVetorBytes(int, int)
      */
-    int obtemInteiro(int id, int campo);
+    int obtemInteiro(int tipo, int id, int campo);
 
     /**
      * Recupera o valor de precisão simples (ponto
