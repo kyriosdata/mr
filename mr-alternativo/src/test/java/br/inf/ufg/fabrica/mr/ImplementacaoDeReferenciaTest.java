@@ -35,7 +35,8 @@ public class ImplementacaoDeReferenciaTest {
     public void testDvParagraphUmUnicoDvText() {
 
         // DV_TEXT sem TERM_MAPPING
-        int dvt1 = mrp.adicionaDvText("valor",
+        int dvt1 = mrp.adicionaDvText(
+                "valor",
                 "formatting",
                 "hyperlink",
                 "languageName",
@@ -75,7 +76,7 @@ public class ImplementacaoDeReferenciaTest {
         // Só tem um DV_TEXT na lista
         int chaveDvText = mr.obtemItemEmLista(chaveLista, 0);
 
-        assertEquals("formatting", mr.obtemString(
+        assertEquals("valor", mr.obtemString(
                 ImplementacaoDeReferencia.DV_TEXT,
                 chaveDvText,
                 0));
