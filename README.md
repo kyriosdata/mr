@@ -25,5 +25,3 @@ Tarefas
 - Verificar desempenho com Realm (http://realm.io) 
 - Gerenciar memória (https://grizzly.java.net/memory.html)
 - Buffers (http://stackoverflow.com/questions/28511541/libuv-allocated-memory-buffers-re-use-techniques)
-- https://www.infoq.com/news/2016/07/apple-lzfse-lossless-opensource 
-- Compressão usando lz4 (https://cyan4973.github.io/lz4/). Aparentemente ainda não há lzfse para Java.
