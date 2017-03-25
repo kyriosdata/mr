@@ -23,5 +23,4 @@ MR.
 Tarefas
 =======
 - Verificar desempenho com Realm (http://realm.io) 
-- Gerenciar memória (https://grizzly.java.net/memory.html)
-- Buffers (http://stackoverflow.com/questions/28511541/libuv-allocated-memory-buffers-re-use-techniques)
+
