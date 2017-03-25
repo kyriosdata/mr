@@ -20,7 +20,3 @@ O objetivo é facilitar a experimentação de estratégias
 de persistência de informações registradas segundo o
 MR. 
 
-Tarefas
-=======
-- Verificar desempenho com Realm (http://realm.io) 
-
