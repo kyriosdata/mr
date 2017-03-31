@@ -93,7 +93,6 @@
     <module>openehr-rm-domain</module>
     <module>measure-serv</module>
     <module>mini-termserv</module>
-    <module>mr-alternativo</module>
   </modules>
   <distributionManagement>
     <repository>
