@@ -1,6 +1,4 @@
-# mr
-Modelo de Referência do openEHR: 
-Analisando Possibilidades de Persistência
+# Modelo de Referência do openEHR
 
 [<img src="https://api.travis-ci.org/kyriosdata/mr.svg?branch=master">](https://travis-ci.org/kyriosdata/mr)
 
@@ -10,13 +8,8 @@ TODOS OS CRÉDITOS DEVEM SER DEVIDAMENTE ATRIBUÍDOS
 AOS DEVIDOS AUTORES. 
 
 O presente "fork" inclui apenas parte do disponível na
-URL acima, denominada de Modelo de Referência do openEHR,
-doravante apenas MR. Tal "fork" é estendido com uma
-proposta de implementação alternativa do MR. O código
-do "fork" é utilizado como referência para facilitar a
-verificação e validação da implementação alternativa.
+URL acima, em particular, o que é denominada de Modelo de Referência do openEHR,
+doravante apenas MR. 
 
-O objetivo é facilitar a experimentação de estratégias 
-de persistência de informações registradas segundo o
-MR. 
-
+O objetivo é facilitar a experimentação com o MR, sem a associação com todo o código do repositório de origem.
+Também se espera o acréscimo de informações que possam ser úteis à ambientação com o MR.
